@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.yummipizza.api"
+    },
+    "jhipsterVersion": "6.10.0",
+    "applicationType": "monolith",
+    "baseName": "TheYummiPizzaBackend",
+    "packageName": "com.yummipizza.api",
+    "packageFolder": "com/yummipizza/api",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NDNhNDdhZGNmZTUwNzNmNDhmNmQ4MGYzMWI5ZGE5NTJiZjc2YzcxMGU1MzZhMmFhNzEzNDBjOWM4MDM1OGMzYzQ5MTBmOTdmODkzMzIyMTBlODEyN2I5NDJjYjdmM2RjNzc3YzNmZmNmMTM3OTI5YTQ2N2YzNzJlYWJlMGJlNDc=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "react",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1598266535556,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}
