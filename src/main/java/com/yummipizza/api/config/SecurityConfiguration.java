@@ -49,7 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/content/**")
             .antMatchers("/h2-console/**")
             .antMatchers("/swagger-ui/index.html")
-            .antMatchers("/test/**");
+            .antMatchers("/test/**")
+            .antMatchers("/api/customer/web/register");
     }
 
     @Override
@@ -77,6 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
+            .antMatchers("/api/customer/web/register").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
