@@ -111,12 +111,13 @@ public class UserService {
             newUser.setEmail(userDTO.getEmail().toLowerCase());
         }
         newUser.setImageUrl(userDTO.getImageUrl());
-        newUser.setLangKey(userDTO.getLangKey());
+//        newUser.setLangKey(userDTO.getLangKey());
+        newUser.setLangKey("en");
         // new user is not active
         newUser.setActivated(false);
 
         if (byCustomerWeb) {
-            newUser.setActivated(true);
+            newUser.setActivated(false);
         }
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());

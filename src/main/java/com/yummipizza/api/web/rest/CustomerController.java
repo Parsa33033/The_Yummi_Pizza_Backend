@@ -57,17 +57,17 @@ public class CustomerController {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserJWTController.JWTToken> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+    public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(), true);
-//        mailService.sendActivationEmail(user);
+        mailService.sendActivationEmail(user);
 
-        LoginVM loginVM = new LoginVM();
-        loginVM.setUsername(user.getLogin());
-        loginVM.setPassword(managedUserVM.getPassword());
-        return userJWTController.authorize(loginVM);
+//        LoginVM loginVM = new LoginVM();
+//        loginVM.setUsername(user.getLogin());
+//        loginVM.setPassword(managedUserVM.getPassword());
+//        return userJWTController.authorize(loginVM);
     }
 
     private static boolean checkPasswordLength(String password) {
