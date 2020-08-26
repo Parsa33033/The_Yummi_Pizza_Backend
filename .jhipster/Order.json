@@ -1,0 +1,58 @@
+{
+  "name": "Order",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "totalPrice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "delivered",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "address",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "orderItem",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "items"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "orders",
+      "relationshipName": "customer",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "pizzaria",
+      "otherEntityRelationshipName": "orders",
+      "relationshipName": "pizzaria",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200826070907",
+  "entityTableName": "order",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

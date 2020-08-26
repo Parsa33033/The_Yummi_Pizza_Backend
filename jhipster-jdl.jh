@@ -1,0 +1,120 @@
+entity Customer {
+	username String,
+    email String,
+	firstName String,
+    lastName String,
+    mobileNumber String,
+    gender Gender
+}
+
+entity Manager {
+	username String,
+    email String,
+    firstName String,
+    lastName String,
+  	mobileNumber String,
+    gender Gender,
+}
+
+enum Gender {
+	MALE,
+    FEMALE
+}
+
+entity Pizzaria {
+	name String,
+    description TextBlob,
+    openHours String,
+    openDays String,
+    deliveryPrice Double,
+    staff Integer,
+    customers Integer,
+    numberOfAwards Integer,
+    pizzaBranches Integer
+}
+
+relationship OneToOne {
+	Pizzaria{manager} to Manager{pizzaria}
+}
+
+relationship OneToOne {
+	Customer{address} to Address{customer}
+}
+
+entity Order {
+	date LocalDate,
+    totalPrice Double,
+    delivered Boolean,
+}
+
+relationship OneToMany {
+	Customer{orders} to Order{customer}
+}
+
+relationship OneToMany {
+	Pizzaria{orders} to Order{pizzaria}
+}
+
+relationship OneToMany {
+	Order{items} to OrderItem{order}
+}
+
+relationship OneToOne {
+	Order{address} to Address{order}
+}
+
+entity OrderItem {
+	number Integer,
+}
+
+relationship OneToOne {
+	OrderItem{menuItem} to MenuItem{orderItem}
+}
+
+entity Address {
+	phoneNumber String,
+	country String,
+    state String,
+    city String,
+    address1 String,
+    address2 String
+}
+
+relationship OneToOne {
+	Pizzaria{address} to Address{pizzaria}
+}
+
+entity MenuItem {
+	name String,
+    description TextBlob,
+    ingredient TextBlob,
+    priceDollor Double,
+    priceEuro Double,
+	type FoodType,
+    picJpg ImageBlob,
+    picPng ImageBlob,
+}
+
+enum FoodType {
+	PIZZA,
+    BURGER,
+    PASTA,
+    DRINK
+}
+
+relationship OneToMany {
+	Pizzaria{items} to MenuItem{pizzaria}
+}
+
+entity Rating {
+	customerId Long,
+    menuItemId Long,
+    rating Integer
+}
+
+entity CustomerMessage {
+	name String,
+    email String,
+    subject String,
+    message TextBlob,
+}

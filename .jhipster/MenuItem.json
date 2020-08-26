@@ -1,0 +1,69 @@
+{
+  "name": "MenuItem",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "ingredient",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "priceDollor",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "priceEuro",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "FoodType",
+      "fieldValues": "PIZZA,BURGER,PASTA,DRINK"
+    },
+    {
+      "fieldName": "picJpg",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "picPng",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "orderItem",
+      "otherEntityRelationshipName": "menuItem",
+      "relationshipName": "orderItem",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "pizzaria",
+      "otherEntityRelationshipName": "items",
+      "relationshipName": "pizzaria",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200826071207",
+  "entityTableName": "menu_item",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

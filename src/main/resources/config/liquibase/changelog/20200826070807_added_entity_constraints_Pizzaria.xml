@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Pizzaria.
+    -->
+    <changeSet id="20200826070807-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="manager_id"
+                                 baseTableName="pizzaria"
+                                 constraintName="fk_pizzaria_manager_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="manager"/>
+
+        <addForeignKeyConstraint baseColumnNames="address_id"
+                                 baseTableName="pizzaria"
+                                 constraintName="fk_pizzaria_address_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="address"/>
+
+    </changeSet>
+</databaseChangeLog>

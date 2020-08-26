@@ -1,0 +1,83 @@
+{
+  "name": "Pizzaria",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "openHours",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "openDays",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryPrice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "staff",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "customers",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "numberOfAwards",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "pizzaBranches",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "manager",
+      "otherEntityRelationshipName": "pizzaria",
+      "relationshipName": "manager",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "pizzaria",
+      "relationshipName": "address",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "order",
+      "otherEntityRelationshipName": "pizzaria",
+      "relationshipName": "orders"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "menuItem",
+      "otherEntityRelationshipName": "pizzaria",
+      "relationshipName": "items"
+    }
+  ],
+  "changelogDate": "20200826070807",
+  "entityTableName": "pizzaria",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

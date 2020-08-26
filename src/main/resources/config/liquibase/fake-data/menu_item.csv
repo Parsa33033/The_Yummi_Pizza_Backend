@@ -1,0 +1,11 @@
+id;name;description;ingredient;price_dollor;price_euro;type;pic_jpg;pic_jpg_content_type;pic_png;pic_png_content_type
+1;generating;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;26861;42036;DRINK;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+2;JBOD Madagascar;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;59574;55821;DRINK;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+3;mint green;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;28888;72889;PASTA;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+4;Rupiah bandwidth;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;90187;45162;DRINK;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+5;South Dakota;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;19732;42839;PIZZA;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+6;Hollow impactful Borders;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;8578;96660;PIZZA;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+7;FTP web-enabled;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;81348;24875;PIZZA;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+8;Directives Wyoming Metrics;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;50640;84932;PIZZA;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+9;National Engineer;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;16985;59063;BURGER;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png
+10;Practical networks online;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;40885;37515;PIZZA;../fake-data/blob/hipster.png;image/png;../fake-data/blob/hipster.png;image/png

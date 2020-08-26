@@ -1,0 +1,50 @@
+{
+  "name": "Manager",
+  "fields": [
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "MALE,FEMALE"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "pizzaria",
+      "otherEntityRelationshipName": "manager",
+      "relationshipName": "pizzaria",
+      "ownerSide": false
+    }
+  ],
+  "changelogDate": "20200826070707",
+  "entityTableName": "manager",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

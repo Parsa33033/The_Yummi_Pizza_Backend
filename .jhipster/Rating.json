@@ -1,0 +1,29 @@
+{
+  "name": "Rating",
+  "fields": [
+    {
+      "fieldName": "customerId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "menuItemId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "rating",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20200826071307",
+  "entityTableName": "rating",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
