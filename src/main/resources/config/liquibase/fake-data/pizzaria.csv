@@ -1,11 +1,11 @@
-id;name;description;open_hours;open_days;delivery_price;staff;customers;number_of_awards;pizza_branches
-1;Representative;../fake-data/blob/hipster.txt;Louisiana Identity Silver;Frozen;78509;26444;37805;64698;76627
-2;mindshare;../fake-data/blob/hipster.txt;deposit;Texas Landing;33027;71074;62715;88723;48308
-3;hardware microchip;../fake-data/blob/hipster.txt;Pennsylvania Up-sized distributed;Squares HDD;93452;64569;47163;48196;10799
-4;pixel Producer;../fake-data/blob/hipster.txt;Cross-platform Unbranded Granite Chicken;port;2984;78347;38690;3129;45477
-5;Dynamic;../fake-data/blob/hipster.txt;invoice auxiliary recontextualize;internet solution;73568;8594;30235;39210;45053
-6;olive Hawaii;../fake-data/blob/hipster.txt;Squares blue bluetooth;Burundi Concrete;36467;33604;28473;62752;77696
-7;multi-byte capacitor;../fake-data/blob/hipster.txt;navigating Health Self-enabling;Guyana;87884;5328;15367;45037;99918
-8;deposit Customizable;../fake-data/blob/hipster.txt;Product turn-key Nakfa;next-generation generating Regional;44696;82760;98090;63052;16465
-9;Diverse bifurcated connect;../fake-data/blob/hipster.txt;communities;Movies;81661;30200;9404;32560;75775
-10;Principal Arizona pink;../fake-data/blob/hipster.txt;parse Personal Loan Account Business-focused;Product bus program;37677;37586;15524;75975;88689
+id;name;description;aboutus;email;open_hours;open_days;delivery_price_in_dollor;delivery_price_in_euro;staff;customers;number_of_awards;pizza_branches
+1;Representative;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Kelvin.Hegmann68@hotmail.com;budgetary management Forward exuding;copy mindshare;21083;63997;21522;46473;57930;85337
+2;e-services alarm;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Jaylon42@hotmail.com;gold Pennsylvania Up-sized;Home Loan Account Squares;86886;59324;93452;64569;47163;48196
+3;repurpose;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Wendell.Rice@yahoo.com;Unbranded Granite Chicken;port;2984;78347;38690;3129;45477;5481
+4;invoice invoice auxiliary;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Zetta53@yahoo.com;Incredible brand reinvent;Hawaii indexing;79941;21019;8749;80926;61754;47061
+5;Wooden Horizontal;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Eddie_Murazik79@yahoo.com;capacitor Facilitator;Health Self-enabling;13110;52664;37230;87884;5328;15367
+6;Planner deposit;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Calista.Walsh35@gmail.com;Nakfa PCI;generating Regional Stream;98090;63052;16465;94087;23826;20118
+7;Soft;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Adrian9@yahoo.com;Licensed Plastic Computer;transmit;88968;95744;57184;5405;22108;32320
+8;parse Personal Loan Account Business-focused;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Theresa_Graham76@hotmail.com;seize Cheese EXE;strategize Minnesota Plain;8520;82027;46658;11560;58779;19018
+9;JBOD transition;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Brittany.Doyle@gmail.com;Tasty;Fort;54560;68824;26433;43091;69244;43217
+10;Practical Granite Chips Tasty hacking;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;Shaylee17@gmail.com;virtual Shirt primary;Future-proofed;45521;83260;5267;83567;45552;76118

@@ -25,7 +25,7 @@ export const PizzariaUpdate = (props: IPizzariaUpdateProps) => {
 
   const { pizzariaEntity, managers, addresses, loading, updating } = props;
 
-  const { description } = pizzariaEntity;
+  const { description, aboutus } = pizzariaEntity;
 
   const handleClose = () => {
     props.history.push('/pizzaria');
@@ -103,6 +103,18 @@ export const PizzariaUpdate = (props: IPizzariaUpdateProps) => {
                 <AvInput id="pizzaria-description" type="textarea" name="description" />
               </AvGroup>
               <AvGroup>
+                <Label id="aboutusLabel" for="pizzaria-aboutus">
+                  Aboutus
+                </Label>
+                <AvInput id="pizzaria-aboutus" type="textarea" name="aboutus" />
+              </AvGroup>
+              <AvGroup>
+                <Label id="emailLabel" for="pizzaria-email">
+                  Email
+                </Label>
+                <AvField id="pizzaria-email" type="text" name="email" />
+              </AvGroup>
+              <AvGroup>
                 <Label id="openHoursLabel" for="pizzaria-openHours">
                   Open Hours
                 </Label>
@@ -115,10 +127,16 @@ export const PizzariaUpdate = (props: IPizzariaUpdateProps) => {
                 <AvField id="pizzaria-openDays" type="text" name="openDays" />
               </AvGroup>
               <AvGroup>
-                <Label id="deliveryPriceLabel" for="pizzaria-deliveryPrice">
-                  Delivery Price
+                <Label id="deliveryPriceInDollorLabel" for="pizzaria-deliveryPriceInDollor">
+                  Delivery Price In Dollor
                 </Label>
-                <AvField id="pizzaria-deliveryPrice" type="string" className="form-control" name="deliveryPrice" />
+                <AvField id="pizzaria-deliveryPriceInDollor" type="string" className="form-control" name="deliveryPriceInDollor" />
+              </AvGroup>
+              <AvGroup>
+                <Label id="deliveryPriceInEuroLabel" for="pizzaria-deliveryPriceInEuro">
+                  Delivery Price In Euro
+                </Label>
+                <AvField id="pizzaria-deliveryPriceInEuro" type="string" className="form-control" name="deliveryPriceInEuro" />
               </AvGroup>
               <AvGroup>
                 <Label id="staffLabel" for="pizzaria-staff">

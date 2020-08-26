@@ -35,9 +35,12 @@ export const Pizzaria = (props: IPizzariaProps) => {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Aboutus</th>
+                <th>Email</th>
                 <th>Open Hours</th>
                 <th>Open Days</th>
-                <th>Delivery Price</th>
+                <th>Delivery Price In Dollor</th>
+                <th>Delivery Price In Euro</th>
                 <th>Staff</th>
                 <th>Customers</th>
                 <th>Number Of Awards</th>
@@ -57,9 +60,12 @@ export const Pizzaria = (props: IPizzariaProps) => {
                   </td>
                   <td>{pizzaria.name}</td>
                   <td>{pizzaria.description}</td>
+                  <td>{pizzaria.aboutus}</td>
+                  <td>{pizzaria.email}</td>
                   <td>{pizzaria.openHours}</td>
                   <td>{pizzaria.openDays}</td>
-                  <td>{pizzaria.deliveryPrice}</td>
+                  <td>{pizzaria.deliveryPriceInDollor}</td>
+                  <td>{pizzaria.deliveryPriceInEuro}</td>
                   <td>{pizzaria.staff}</td>
                   <td>{pizzaria.customers}</td>
                   <td>{pizzaria.numberOfAwards}</td>

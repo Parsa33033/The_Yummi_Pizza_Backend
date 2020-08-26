@@ -39,14 +39,23 @@ public class PizzariaResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ABOUTUS = "AAAAAAAAAA";
+    private static final String UPDATED_ABOUTUS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
     private static final String DEFAULT_OPEN_HOURS = "AAAAAAAAAA";
     private static final String UPDATED_OPEN_HOURS = "BBBBBBBBBB";
 
     private static final String DEFAULT_OPEN_DAYS = "AAAAAAAAAA";
     private static final String UPDATED_OPEN_DAYS = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_DELIVERY_PRICE = 1D;
-    private static final Double UPDATED_DELIVERY_PRICE = 2D;
+    private static final Double DEFAULT_DELIVERY_PRICE_IN_DOLLOR = 1D;
+    private static final Double UPDATED_DELIVERY_PRICE_IN_DOLLOR = 2D;
+
+    private static final Double DEFAULT_DELIVERY_PRICE_IN_EURO = 1D;
+    private static final Double UPDATED_DELIVERY_PRICE_IN_EURO = 2D;
 
     private static final Integer DEFAULT_STAFF = 1;
     private static final Integer UPDATED_STAFF = 2;
@@ -87,9 +96,12 @@ public class PizzariaResourceIT {
         Pizzaria pizzaria = new Pizzaria()
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
+            .aboutus(DEFAULT_ABOUTUS)
+            .email(DEFAULT_EMAIL)
             .openHours(DEFAULT_OPEN_HOURS)
             .openDays(DEFAULT_OPEN_DAYS)
-            .deliveryPrice(DEFAULT_DELIVERY_PRICE)
+            .deliveryPriceInDollor(DEFAULT_DELIVERY_PRICE_IN_DOLLOR)
+            .deliveryPriceInEuro(DEFAULT_DELIVERY_PRICE_IN_EURO)
             .staff(DEFAULT_STAFF)
             .customers(DEFAULT_CUSTOMERS)
             .numberOfAwards(DEFAULT_NUMBER_OF_AWARDS)
@@ -106,9 +118,12 @@ public class PizzariaResourceIT {
         Pizzaria pizzaria = new Pizzaria()
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
+            .aboutus(UPDATED_ABOUTUS)
+            .email(UPDATED_EMAIL)
             .openHours(UPDATED_OPEN_HOURS)
             .openDays(UPDATED_OPEN_DAYS)
-            .deliveryPrice(UPDATED_DELIVERY_PRICE)
+            .deliveryPriceInDollor(UPDATED_DELIVERY_PRICE_IN_DOLLOR)
+            .deliveryPriceInEuro(UPDATED_DELIVERY_PRICE_IN_EURO)
             .staff(UPDATED_STAFF)
             .customers(UPDATED_CUSTOMERS)
             .numberOfAwards(UPDATED_NUMBER_OF_AWARDS)
@@ -138,9 +153,12 @@ public class PizzariaResourceIT {
         Pizzaria testPizzaria = pizzariaList.get(pizzariaList.size() - 1);
         assertThat(testPizzaria.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPizzaria.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testPizzaria.getAboutus()).isEqualTo(DEFAULT_ABOUTUS);
+        assertThat(testPizzaria.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testPizzaria.getOpenHours()).isEqualTo(DEFAULT_OPEN_HOURS);
         assertThat(testPizzaria.getOpenDays()).isEqualTo(DEFAULT_OPEN_DAYS);
-        assertThat(testPizzaria.getDeliveryPrice()).isEqualTo(DEFAULT_DELIVERY_PRICE);
+        assertThat(testPizzaria.getDeliveryPriceInDollor()).isEqualTo(DEFAULT_DELIVERY_PRICE_IN_DOLLOR);
+        assertThat(testPizzaria.getDeliveryPriceInEuro()).isEqualTo(DEFAULT_DELIVERY_PRICE_IN_EURO);
         assertThat(testPizzaria.getStaff()).isEqualTo(DEFAULT_STAFF);
         assertThat(testPizzaria.getCustomers()).isEqualTo(DEFAULT_CUSTOMERS);
         assertThat(testPizzaria.getNumberOfAwards()).isEqualTo(DEFAULT_NUMBER_OF_AWARDS);
@@ -181,9 +199,12 @@ public class PizzariaResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(pizzaria.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].aboutus").value(hasItem(DEFAULT_ABOUTUS.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].openHours").value(hasItem(DEFAULT_OPEN_HOURS)))
             .andExpect(jsonPath("$.[*].openDays").value(hasItem(DEFAULT_OPEN_DAYS)))
-            .andExpect(jsonPath("$.[*].deliveryPrice").value(hasItem(DEFAULT_DELIVERY_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].deliveryPriceInDollor").value(hasItem(DEFAULT_DELIVERY_PRICE_IN_DOLLOR.doubleValue())))
+            .andExpect(jsonPath("$.[*].deliveryPriceInEuro").value(hasItem(DEFAULT_DELIVERY_PRICE_IN_EURO.doubleValue())))
             .andExpect(jsonPath("$.[*].staff").value(hasItem(DEFAULT_STAFF)))
             .andExpect(jsonPath("$.[*].customers").value(hasItem(DEFAULT_CUSTOMERS)))
             .andExpect(jsonPath("$.[*].numberOfAwards").value(hasItem(DEFAULT_NUMBER_OF_AWARDS)))
@@ -203,9 +224,12 @@ public class PizzariaResourceIT {
             .andExpect(jsonPath("$.id").value(pizzaria.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.aboutus").value(DEFAULT_ABOUTUS.toString()))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
             .andExpect(jsonPath("$.openHours").value(DEFAULT_OPEN_HOURS))
             .andExpect(jsonPath("$.openDays").value(DEFAULT_OPEN_DAYS))
-            .andExpect(jsonPath("$.deliveryPrice").value(DEFAULT_DELIVERY_PRICE.doubleValue()))
+            .andExpect(jsonPath("$.deliveryPriceInDollor").value(DEFAULT_DELIVERY_PRICE_IN_DOLLOR.doubleValue()))
+            .andExpect(jsonPath("$.deliveryPriceInEuro").value(DEFAULT_DELIVERY_PRICE_IN_EURO.doubleValue()))
             .andExpect(jsonPath("$.staff").value(DEFAULT_STAFF))
             .andExpect(jsonPath("$.customers").value(DEFAULT_CUSTOMERS))
             .andExpect(jsonPath("$.numberOfAwards").value(DEFAULT_NUMBER_OF_AWARDS))
@@ -234,9 +258,12 @@ public class PizzariaResourceIT {
         updatedPizzaria
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
+            .aboutus(UPDATED_ABOUTUS)
+            .email(UPDATED_EMAIL)
             .openHours(UPDATED_OPEN_HOURS)
             .openDays(UPDATED_OPEN_DAYS)
-            .deliveryPrice(UPDATED_DELIVERY_PRICE)
+            .deliveryPriceInDollor(UPDATED_DELIVERY_PRICE_IN_DOLLOR)
+            .deliveryPriceInEuro(UPDATED_DELIVERY_PRICE_IN_EURO)
             .staff(UPDATED_STAFF)
             .customers(UPDATED_CUSTOMERS)
             .numberOfAwards(UPDATED_NUMBER_OF_AWARDS)
@@ -254,9 +281,12 @@ public class PizzariaResourceIT {
         Pizzaria testPizzaria = pizzariaList.get(pizzariaList.size() - 1);
         assertThat(testPizzaria.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testPizzaria.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testPizzaria.getAboutus()).isEqualTo(UPDATED_ABOUTUS);
+        assertThat(testPizzaria.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testPizzaria.getOpenHours()).isEqualTo(UPDATED_OPEN_HOURS);
         assertThat(testPizzaria.getOpenDays()).isEqualTo(UPDATED_OPEN_DAYS);
-        assertThat(testPizzaria.getDeliveryPrice()).isEqualTo(UPDATED_DELIVERY_PRICE);
+        assertThat(testPizzaria.getDeliveryPriceInDollor()).isEqualTo(UPDATED_DELIVERY_PRICE_IN_DOLLOR);
+        assertThat(testPizzaria.getDeliveryPriceInEuro()).isEqualTo(UPDATED_DELIVERY_PRICE_IN_EURO);
         assertThat(testPizzaria.getStaff()).isEqualTo(UPDATED_STAFF);
         assertThat(testPizzaria.getCustomers()).isEqualTo(UPDATED_CUSTOMERS);
         assertThat(testPizzaria.getNumberOfAwards()).isEqualTo(UPDATED_NUMBER_OF_AWARDS);

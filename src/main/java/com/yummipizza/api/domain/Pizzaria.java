@@ -27,14 +27,24 @@ public class Pizzaria implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Lob
+    @Column(name = "aboutus")
+    private String aboutus;
+
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "open_hours")
     private String openHours;
 
     @Column(name = "open_days")
     private String openDays;
 
-    @Column(name = "delivery_price")
-    private Double deliveryPrice;
+    @Column(name = "delivery_price_in_dollor")
+    private Double deliveryPriceInDollor;
+
+    @Column(name = "delivery_price_in_euro")
+    private Double deliveryPriceInEuro;
 
     @Column(name = "staff")
     private Integer staff;
@@ -97,6 +107,32 @@ public class Pizzaria implements Serializable {
         this.description = description;
     }
 
+    public String getAboutus() {
+        return aboutus;
+    }
+
+    public Pizzaria aboutus(String aboutus) {
+        this.aboutus = aboutus;
+        return this;
+    }
+
+    public void setAboutus(String aboutus) {
+        this.aboutus = aboutus;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Pizzaria email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getOpenHours() {
         return openHours;
     }
@@ -123,17 +159,30 @@ public class Pizzaria implements Serializable {
         this.openDays = openDays;
     }
 
-    public Double getDeliveryPrice() {
-        return deliveryPrice;
+    public Double getDeliveryPriceInDollor() {
+        return deliveryPriceInDollor;
     }
 
-    public Pizzaria deliveryPrice(Double deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
+    public Pizzaria deliveryPriceInDollor(Double deliveryPriceInDollor) {
+        this.deliveryPriceInDollor = deliveryPriceInDollor;
         return this;
     }
 
-    public void setDeliveryPrice(Double deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
+    public void setDeliveryPriceInDollor(Double deliveryPriceInDollor) {
+        this.deliveryPriceInDollor = deliveryPriceInDollor;
+    }
+
+    public Double getDeliveryPriceInEuro() {
+        return deliveryPriceInEuro;
+    }
+
+    public Pizzaria deliveryPriceInEuro(Double deliveryPriceInEuro) {
+        this.deliveryPriceInEuro = deliveryPriceInEuro;
+        return this;
+    }
+
+    public void setDeliveryPriceInEuro(Double deliveryPriceInEuro) {
+        this.deliveryPriceInEuro = deliveryPriceInEuro;
     }
 
     public Integer getStaff() {
@@ -288,9 +337,12 @@ public class Pizzaria implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
+            ", aboutus='" + getAboutus() + "'" +
+            ", email='" + getEmail() + "'" +
             ", openHours='" + getOpenHours() + "'" +
             ", openDays='" + getOpenDays() + "'" +
-            ", deliveryPrice=" + getDeliveryPrice() +
+            ", deliveryPriceInDollor=" + getDeliveryPriceInDollor() +
+            ", deliveryPriceInEuro=" + getDeliveryPriceInEuro() +
             ", staff=" + getStaff() +
             ", customers=" + getCustomers() +
             ", numberOfAwards=" + getNumberOfAwards() +

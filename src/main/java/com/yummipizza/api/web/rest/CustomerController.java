@@ -1,12 +1,19 @@
 package com.yummipizza.api.web.rest;
 
+import com.yummipizza.api.domain.CustomerMessage;
+import com.yummipizza.api.domain.Pizzaria;
 import com.yummipizza.api.domain.User;
+import com.yummipizza.api.repository.AddressRepository;
+import com.yummipizza.api.repository.PizzariaRepository;
 import com.yummipizza.api.repository.UserRepository;
+import com.yummipizza.api.service.CustomerMessageService;
 import com.yummipizza.api.service.MailService;
 import com.yummipizza.api.service.PizzariaService;
 import com.yummipizza.api.service.UserService;
-import com.yummipizza.api.service.dto.PizzariaDTO;
-import com.yummipizza.api.service.dto.UserDTO;
+import com.yummipizza.api.service.dto.*;
+import com.yummipizza.api.service.mapper.AddressMapper;
+import com.yummipizza.api.service.mapper.CustomerMessageMapper;
+import com.yummipizza.api.service.mapper.PizzariaMapper;
 import com.yummipizza.api.web.rest.errors.EmailAlreadyUsedException;
 import com.yummipizza.api.web.rest.errors.InvalidPasswordException;
 import com.yummipizza.api.web.rest.errors.LoginAlreadyUsedException;
@@ -41,18 +48,30 @@ public class CustomerController {
 
     private final MailService mailService;
 
-    private final PizzariaService pizzariaService;
+    private final PizzariaRepository pizzariaRepository;
+    private final PizzariaMapper pizzariaMapper;
+
+    private final AddressRepository addressRepository;
+    private final AddressMapper addressMapper;
+
+    private final CustomerMessageService customerMessageService;
 
     @Autowired
     UserJWTController userJWTController;
 
     public CustomerController(UserRepository userRepository, UserService userService, MailService mailService,
-                              PizzariaService pizzariaService) {
+                              PizzariaRepository pizzariaRepository, PizzariaMapper pizzariaMapper,
+                              AddressRepository addressRepository, AddressMapper addressMapper,
+                              CustomerMessageService customerMessageService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
-        this.pizzariaService = pizzariaService;
+        this.pizzariaRepository = pizzariaRepository;
+        this.pizzariaMapper = pizzariaMapper;
+        this.addressRepository = addressRepository;
+        this.addressMapper = addressMapper;
+        this.customerMessageService = customerMessageService;
     }
 
     /**
@@ -97,9 +116,24 @@ public class CustomerController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of pizzarias in body.
      */
     @GetMapping("/pizzarias")
-    public List<PizzariaDTO> getAllPizzarias() {
+    public ResponseEntity<DummyPizzariaDTO> getAllPizzarias() {
         log.debug("REST request to get all Pizzarias");
-        return pizzariaService.findAll();
+        Pizzaria pizzaria = pizzariaRepository.findAll().get(0);
+        DummyPizzariaDTO dummyPizzariaDTO = new DummyPizzariaDTO(pizzariaMapper.toDto(pizzaria));
+        DummyAddressDTO dummyAddressDTO = new DummyAddressDTO(addressMapper.toDto(pizzaria.getAddress()));
+        dummyPizzariaDTO.setAddress(dummyAddressDTO);
+        return ResponseEntity.ok(dummyPizzariaDTO);
+    }
+
+    @PostMapping("/customer-message")
+    public void sendCustomerMessage(@RequestBody CustomerMessageDTO customerMessageDTO) {
+        customerMessageService.save(customerMessageDTO);
+        CustomerMessage message = new CustomerMessage();
+        message.setEmail(customerMessageDTO.getEmail());
+        message.setMessage(customerMessageDTO.getMessage());
+        message.setName(customerMessageDTO.getName());
+        message.setSubject(customerMessageDTO.getSubject());
+        mailService.sendCustomerMessageEmailFromTemplate(message,  "mail/customerMessage", "email.customer.message.subject");
     }
 
     private static boolean checkPasswordLength(String password) {

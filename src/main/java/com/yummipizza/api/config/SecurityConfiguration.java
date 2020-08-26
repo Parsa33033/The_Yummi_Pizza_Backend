@@ -51,7 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-ui/index.html")
             .antMatchers("/test/**")
             .antMatchers("/api/customer/web/register")
-            .antMatchers("/api/customer/web/pizzarias");
+            .antMatchers("/api/customer/web/pizzarias")
+            .antMatchers("/api/customer/web/customer-message");
     }
 
     @Override
@@ -81,6 +82,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/api/customer/web/register").permitAll()
             .antMatchers("/api/customer/web/pizzarias").permitAll()
+            .antMatchers("/api/customer/web/customer-message").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()

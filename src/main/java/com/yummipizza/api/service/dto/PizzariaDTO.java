@@ -15,11 +15,18 @@ public class PizzariaDTO implements Serializable {
     @Lob
     private String description;
 
+    @Lob
+    private String aboutus;
+
+    private String email;
+
     private String openHours;
 
     private String openDays;
 
-    private Double deliveryPrice;
+    private Double deliveryPriceInDollor;
+
+    private Double deliveryPriceInEuro;
 
     private Integer staff;
 
@@ -58,6 +65,22 @@ public class PizzariaDTO implements Serializable {
         this.description = description;
     }
 
+    public String getAboutus() {
+        return aboutus;
+    }
+
+    public void setAboutus(String aboutus) {
+        this.aboutus = aboutus;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getOpenHours() {
         return openHours;
     }
@@ -74,12 +97,20 @@ public class PizzariaDTO implements Serializable {
         this.openDays = openDays;
     }
 
-    public Double getDeliveryPrice() {
-        return deliveryPrice;
+    public Double getDeliveryPriceInDollor() {
+        return deliveryPriceInDollor;
     }
 
-    public void setDeliveryPrice(Double deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
+    public void setDeliveryPriceInDollor(Double deliveryPriceInDollor) {
+        this.deliveryPriceInDollor = deliveryPriceInDollor;
+    }
+
+    public Double getDeliveryPriceInEuro() {
+        return deliveryPriceInEuro;
+    }
+
+    public void setDeliveryPriceInEuro(Double deliveryPriceInEuro) {
+        this.deliveryPriceInEuro = deliveryPriceInEuro;
     }
 
     public Integer getStaff() {
@@ -154,9 +185,12 @@ public class PizzariaDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
+            ", aboutus='" + getAboutus() + "'" +
+            ", email='" + getEmail() + "'" +
             ", openHours='" + getOpenHours() + "'" +
             ", openDays='" + getOpenDays() + "'" +
-            ", deliveryPrice=" + getDeliveryPrice() +
+            ", deliveryPriceInDollor=" + getDeliveryPriceInDollor() +
+            ", deliveryPriceInEuro=" + getDeliveryPriceInEuro() +
             ", staff=" + getStaff() +
             ", customers=" + getCustomers() +
             ", numberOfAwards=" + getNumberOfAwards() +

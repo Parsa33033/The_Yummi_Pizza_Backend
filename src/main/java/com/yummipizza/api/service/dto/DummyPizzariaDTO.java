@@ -16,7 +16,10 @@ public class DummyPizzariaDTO extends PizzariaDTO{
         this.setId(pizzariaDTO.getId());
         this.setAddressId(pizzariaDTO.getAddressId());
         this.setCustomers(pizzariaDTO.getCustomers());
-        this.setDeliveryPrice(pizzariaDTO.getDeliveryPrice());
+        this.setDeliveryPriceInDollor(pizzariaDTO.getDeliveryPriceInDollor());
+        this.setDeliveryPriceInEuro(pizzariaDTO.getDeliveryPriceInEuro());
+        this.setAboutus(pizzariaDTO.getAboutus());
+        this.setEmail(pizzariaDTO.getEmail());
         this.setDescription(pizzariaDTO.getDescription());
         this.setManagerId(pizzariaDTO.getManagerId());
         this.setName(pizzariaDTO.getName());

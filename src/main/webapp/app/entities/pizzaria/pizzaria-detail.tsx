@@ -34,6 +34,14 @@ export const PizzariaDetail = (props: IPizzariaDetailProps) => {
           </dt>
           <dd>{pizzariaEntity.description}</dd>
           <dt>
+            <span id="aboutus">Aboutus</span>
+          </dt>
+          <dd>{pizzariaEntity.aboutus}</dd>
+          <dt>
+            <span id="email">Email</span>
+          </dt>
+          <dd>{pizzariaEntity.email}</dd>
+          <dt>
             <span id="openHours">Open Hours</span>
           </dt>
           <dd>{pizzariaEntity.openHours}</dd>
@@ -42,9 +50,13 @@ export const PizzariaDetail = (props: IPizzariaDetailProps) => {
           </dt>
           <dd>{pizzariaEntity.openDays}</dd>
           <dt>
-            <span id="deliveryPrice">Delivery Price</span>
+            <span id="deliveryPriceInDollor">Delivery Price In Dollor</span>
           </dt>
-          <dd>{pizzariaEntity.deliveryPrice}</dd>
+          <dd>{pizzariaEntity.deliveryPriceInDollor}</dd>
+          <dt>
+            <span id="deliveryPriceInEuro">Delivery Price In Euro</span>
+          </dt>
+          <dd>{pizzariaEntity.deliveryPriceInEuro}</dd>
           <dt>
             <span id="staff">Staff</span>
           </dt>

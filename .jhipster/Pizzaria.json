@@ -11,6 +11,15 @@
       "fieldTypeBlobContent": "text"
     },
     {
+      "fieldName": "aboutus",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "openHours",
       "fieldType": "String"
     },
@@ -19,7 +28,11 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "deliveryPrice",
+      "fieldName": "deliveryPriceInDollor",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "deliveryPriceInEuro",
       "fieldType": "Double"
     },
     {

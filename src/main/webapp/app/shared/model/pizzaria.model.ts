@@ -5,9 +5,12 @@ export interface IPizzaria {
   id?: number;
   name?: string;
   description?: any;
+  aboutus?: any;
+  email?: string;
   openHours?: string;
   openDays?: string;
-  deliveryPrice?: number;
+  deliveryPriceInDollor?: number;
+  deliveryPriceInEuro?: number;
   staff?: number;
   customers?: number;
   numberOfAwards?: number;

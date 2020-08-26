@@ -22,13 +22,22 @@
             <column name="description" type="${clobType}">
                 <constraints nullable="true" />
             </column>
+            <column name="aboutus" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="open_hours" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="open_days" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="delivery_price" type="double">
+            <column name="delivery_price_in_dollor" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="delivery_price_in_euro" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="staff" type="integer">
@@ -74,9 +83,12 @@
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="description" type="clob"/>
+            <column name="aboutus" type="clob"/>
+            <column name="email" type="string"/>
             <column name="open_hours" type="string"/>
             <column name="open_days" type="string"/>
-            <column name="delivery_price" type="numeric"/>
+            <column name="delivery_price_in_dollor" type="numeric"/>
+            <column name="delivery_price_in_euro" type="numeric"/>
             <column name="staff" type="numeric"/>
             <column name="customers" type="numeric"/>
             <column name="number_of_awards" type="numeric"/>

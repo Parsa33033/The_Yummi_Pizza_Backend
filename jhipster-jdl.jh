@@ -26,9 +26,12 @@ enum Gender {
 entity Pizzaria {
 	name String,
     description TextBlob,
+    aboutus TextBlob,
+    email String,
     openHours String,
     openDays String,
-    deliveryPrice Double,
+    deliveryPriceInDollor Double,
+    deliveryPriceInEuro Double,
     staff Integer,
     customers Integer,
     numberOfAwards Integer,

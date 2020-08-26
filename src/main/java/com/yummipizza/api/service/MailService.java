@@ -1,5 +1,6 @@
 package com.yummipizza.api.service;
 
+import com.yummipizza.api.domain.CustomerMessage;
 import com.yummipizza.api.domain.User;
 
 import io.github.jhipster.config.JHipsterProperties;
@@ -84,6 +85,21 @@ public class MailService {
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
+    }
+
+    @Async
+    public void sendCustomerMessageEmailFromTemplate(CustomerMessage message, String templateName, String titleKey) {
+        if (message.getEmail() == null) {
+            log.debug("Email doesn't exist for user '{}'", message.getEmail());
+            return;
+        }
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("message", message);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(message.getEmail(), subject, content, false, true);
     }
 
     @Async
