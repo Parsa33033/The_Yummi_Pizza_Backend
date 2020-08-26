@@ -203,7 +203,7 @@ export const MenuItemUpdate = (props: IMenuItemUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="menu-item-pizzaria">Pizzaria</Label>
-                <AvInput id="menu-item-pizzaria" type="select" className="form-control" name="pizzaria.id">
+                <AvInput id="menu-item-pizzaria" type="select" className="form-control" name="pizzariaId">
                   <option value="" key="0" />
                   {pizzarias
                     ? pizzarias.map(otherEntity => (

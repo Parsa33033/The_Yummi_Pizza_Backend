@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-import { ICrudGetAllAction } from 'react-jhipster';
+import { openFile, byteSize, ICrudGetAllAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -39,6 +39,7 @@ export const Manager = (props: IManagerProps) => {
                 <th>Last Name</th>
                 <th>Mobile Number</th>
                 <th>Gender</th>
+                <th>Image</th>
                 <th />
               </tr>
             </thead>
@@ -56,6 +57,21 @@ export const Manager = (props: IManagerProps) => {
                   <td>{manager.lastName}</td>
                   <td>{manager.mobileNumber}</td>
                   <td>{manager.gender}</td>
+                  <td>
+                    {manager.image ? (
+                      <div>
+                        {manager.imageContentType ? (
+                          <a onClick={openFile(manager.imageContentType, manager.image)}>
+                            <img src={`data:${manager.imageContentType};base64,${manager.image}`} style={{ maxHeight: '30px' }} />
+                            &nbsp;
+                          </a>
+                        ) : null}
+                        <span>
+                          {manager.imageContentType}, {byteSize(manager.image)}
+                        </span>
+                      </div>
+                    ) : null}
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${manager.id}`} color="info" size="sm">

@@ -1,5 +1,3 @@
-import { IManager } from 'app/shared/model/manager.model';
-import { IAddress } from 'app/shared/model/address.model';
 import { IOrder } from 'app/shared/model/order.model';
 import { IMenuItem } from 'app/shared/model/menu-item.model';
 
@@ -14,8 +12,8 @@ export interface IPizzaria {
   customers?: number;
   numberOfAwards?: number;
   pizzaBranches?: number;
-  manager?: IManager;
-  address?: IAddress;
+  managerId?: number;
+  addressId?: number;
   orders?: IOrder[];
   items?: IMenuItem[];
 }

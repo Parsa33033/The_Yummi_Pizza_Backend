@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.Customer;
 import com.yummipizza.api.repository.CustomerRepository;
+import com.yummipizza.api.service.CustomerService;
+import com.yummipizza.api.service.dto.CustomerDTO;
+import com.yummipizza.api.service.mapper.CustomerMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
@@ -48,8 +52,19 @@ public class CustomerResourceIT {
     private static final Gender DEFAULT_GENDER = Gender.MALE;
     private static final Gender UPDATED_GENDER = Gender.FEMALE;
 
+    private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
+
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CustomerMapper customerMapper;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Autowired
     private EntityManager em;
@@ -72,7 +87,9 @@ public class CustomerResourceIT {
             .firstName(DEFAULT_FIRST_NAME)
             .lastName(DEFAULT_LAST_NAME)
             .mobileNumber(DEFAULT_MOBILE_NUMBER)
-            .gender(DEFAULT_GENDER);
+            .gender(DEFAULT_GENDER)
+            .image(DEFAULT_IMAGE)
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
         return customer;
     }
     /**
@@ -88,7 +105,9 @@ public class CustomerResourceIT {
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .mobileNumber(UPDATED_MOBILE_NUMBER)
-            .gender(UPDATED_GENDER);
+            .gender(UPDATED_GENDER)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
         return customer;
     }
 
@@ -102,9 +121,10 @@ public class CustomerResourceIT {
     public void createCustomer() throws Exception {
         int databaseSizeBeforeCreate = customerRepository.findAll().size();
         // Create the Customer
+        CustomerDTO customerDTO = customerMapper.toDto(customer);
         restCustomerMockMvc.perform(post("/api/customers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(customer)))
+            .content(TestUtil.convertObjectToJsonBytes(customerDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Customer in the database
@@ -117,6 +137,8 @@ public class CustomerResourceIT {
         assertThat(testCustomer.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testCustomer.getMobileNumber()).isEqualTo(DEFAULT_MOBILE_NUMBER);
         assertThat(testCustomer.getGender()).isEqualTo(DEFAULT_GENDER);
+        assertThat(testCustomer.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testCustomer.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -126,11 +148,12 @@ public class CustomerResourceIT {
 
         // Create the Customer with an existing ID
         customer.setId(1L);
+        CustomerDTO customerDTO = customerMapper.toDto(customer);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCustomerMockMvc.perform(post("/api/customers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(customer)))
+            .content(TestUtil.convertObjectToJsonBytes(customerDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Customer in the database
@@ -155,7 +178,9 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
             .andExpect(jsonPath("$.[*].mobileNumber").value(hasItem(DEFAULT_MOBILE_NUMBER)))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())));
+            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
     
     @Test
@@ -174,7 +199,9 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
             .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
             .andExpect(jsonPath("$.mobileNumber").value(DEFAULT_MOBILE_NUMBER))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()));
+            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
+            .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.image").value(Base64Utils.encodeToString(DEFAULT_IMAGE)));
     }
     @Test
     @Transactional
@@ -202,11 +229,14 @@ public class CustomerResourceIT {
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .mobileNumber(UPDATED_MOBILE_NUMBER)
-            .gender(UPDATED_GENDER);
+            .gender(UPDATED_GENDER)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+        CustomerDTO customerDTO = customerMapper.toDto(updatedCustomer);
 
         restCustomerMockMvc.perform(put("/api/customers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedCustomer)))
+            .content(TestUtil.convertObjectToJsonBytes(customerDTO)))
             .andExpect(status().isOk());
 
         // Validate the Customer in the database
@@ -219,6 +249,8 @@ public class CustomerResourceIT {
         assertThat(testCustomer.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testCustomer.getMobileNumber()).isEqualTo(UPDATED_MOBILE_NUMBER);
         assertThat(testCustomer.getGender()).isEqualTo(UPDATED_GENDER);
+        assertThat(testCustomer.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testCustomer.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -226,10 +258,13 @@ public class CustomerResourceIT {
     public void updateNonExistingCustomer() throws Exception {
         int databaseSizeBeforeUpdate = customerRepository.findAll().size();
 
+        // Create the Customer
+        CustomerDTO customerDTO = customerMapper.toDto(customer);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restCustomerMockMvc.perform(put("/api/customers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(customer)))
+            .content(TestUtil.convertObjectToJsonBytes(customerDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Customer in the database

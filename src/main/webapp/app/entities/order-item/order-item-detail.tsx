@@ -30,9 +30,9 @@ export const OrderItemDetail = (props: IOrderItemDetailProps) => {
           </dt>
           <dd>{orderItemEntity.number}</dd>
           <dt>Menu Item</dt>
-          <dd>{orderItemEntity.menuItem ? orderItemEntity.menuItem.id : ''}</dd>
+          <dd>{orderItemEntity.menuItemId ? orderItemEntity.menuItemId : ''}</dd>
           <dt>Order</dt>
-          <dd>{orderItemEntity.order ? orderItemEntity.order.id : ''}</dd>
+          <dd>{orderItemEntity.orderId ? orderItemEntity.orderId : ''}</dd>
         </dl>
         <Button tag={Link} to="/order-item" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

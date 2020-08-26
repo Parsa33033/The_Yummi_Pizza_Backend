@@ -4,7 +4,8 @@ entity Customer {
 	firstName String,
     lastName String,
     mobileNumber String,
-    gender Gender
+    gender Gender,
+    image ImageBlob
 }
 
 entity Manager {
@@ -14,6 +15,7 @@ entity Manager {
     lastName String,
   	mobileNumber String,
     gender Gender,
+    image ImageBlob
 }
 
 enum Gender {
@@ -118,3 +120,6 @@ entity CustomerMessage {
     subject String,
     message TextBlob,
 }
+
+service all with serviceClass
+dto * with mapstruct

@@ -1,8 +1,8 @@
 package com.yummipizza.api.web.rest;
 
-import com.yummipizza.api.domain.Rating;
-import com.yummipizza.api.repository.RatingRepository;
+import com.yummipizza.api.service.RatingService;
 import com.yummipizza.api.web.rest.errors.BadRequestAlertException;
+import com.yummipizza.api.service.dto.RatingDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,7 +22,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class RatingResource {
 
     private final Logger log = LoggerFactory.getLogger(RatingResource.class);
@@ -33,26 +31,26 @@ public class RatingResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final RatingRepository ratingRepository;
+    private final RatingService ratingService;
 
-    public RatingResource(RatingRepository ratingRepository) {
-        this.ratingRepository = ratingRepository;
+    public RatingResource(RatingService ratingService) {
+        this.ratingService = ratingService;
     }
 
     /**
      * {@code POST  /ratings} : Create a new rating.
      *
-     * @param rating the rating to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new rating, or with status {@code 400 (Bad Request)} if the rating has already an ID.
+     * @param ratingDTO the ratingDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new ratingDTO, or with status {@code 400 (Bad Request)} if the rating has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/ratings")
-    public ResponseEntity<Rating> createRating(@RequestBody Rating rating) throws URISyntaxException {
-        log.debug("REST request to save Rating : {}", rating);
-        if (rating.getId() != null) {
+    public ResponseEntity<RatingDTO> createRating(@RequestBody RatingDTO ratingDTO) throws URISyntaxException {
+        log.debug("REST request to save Rating : {}", ratingDTO);
+        if (ratingDTO.getId() != null) {
             throw new BadRequestAlertException("A new rating cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Rating result = ratingRepository.save(rating);
+        RatingDTO result = ratingService.save(ratingDTO);
         return ResponseEntity.created(new URI("/api/ratings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -61,21 +59,21 @@ public class RatingResource {
     /**
      * {@code PUT  /ratings} : Updates an existing rating.
      *
-     * @param rating the rating to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated rating,
-     * or with status {@code 400 (Bad Request)} if the rating is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the rating couldn't be updated.
+     * @param ratingDTO the ratingDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated ratingDTO,
+     * or with status {@code 400 (Bad Request)} if the ratingDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the ratingDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/ratings")
-    public ResponseEntity<Rating> updateRating(@RequestBody Rating rating) throws URISyntaxException {
-        log.debug("REST request to update Rating : {}", rating);
-        if (rating.getId() == null) {
+    public ResponseEntity<RatingDTO> updateRating(@RequestBody RatingDTO ratingDTO) throws URISyntaxException {
+        log.debug("REST request to update Rating : {}", ratingDTO);
+        if (ratingDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Rating result = ratingRepository.save(rating);
+        RatingDTO result = ratingService.save(ratingDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, rating.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, ratingDTO.getId().toString()))
             .body(result);
     }
 
@@ -85,34 +83,34 @@ public class RatingResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of ratings in body.
      */
     @GetMapping("/ratings")
-    public List<Rating> getAllRatings() {
+    public List<RatingDTO> getAllRatings() {
         log.debug("REST request to get all Ratings");
-        return ratingRepository.findAll();
+        return ratingService.findAll();
     }
 
     /**
      * {@code GET  /ratings/:id} : get the "id" rating.
      *
-     * @param id the id of the rating to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rating, or with status {@code 404 (Not Found)}.
+     * @param id the id of the ratingDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the ratingDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/ratings/{id}")
-    public ResponseEntity<Rating> getRating(@PathVariable Long id) {
+    public ResponseEntity<RatingDTO> getRating(@PathVariable Long id) {
         log.debug("REST request to get Rating : {}", id);
-        Optional<Rating> rating = ratingRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(rating);
+        Optional<RatingDTO> ratingDTO = ratingService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(ratingDTO);
     }
 
     /**
      * {@code DELETE  /ratings/:id} : delete the "id" rating.
      *
-     * @param id the id of the rating to delete.
+     * @param id the id of the ratingDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/ratings/{id}")
     public ResponseEntity<Void> deleteRating(@PathVariable Long id) {
         log.debug("REST request to delete Rating : {}", id);
-        ratingRepository.deleteById(id);
+        ratingService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

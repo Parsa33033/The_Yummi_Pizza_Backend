@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-import { ICrudGetAllAction } from 'react-jhipster';
+import { openFile, byteSize, ICrudGetAllAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -39,6 +39,7 @@ export const Customer = (props: ICustomerProps) => {
                 <th>Last Name</th>
                 <th>Mobile Number</th>
                 <th>Gender</th>
+                <th>Image</th>
                 <th>Address</th>
                 <th />
               </tr>
@@ -57,7 +58,22 @@ export const Customer = (props: ICustomerProps) => {
                   <td>{customer.lastName}</td>
                   <td>{customer.mobileNumber}</td>
                   <td>{customer.gender}</td>
-                  <td>{customer.address ? <Link to={`address/${customer.address.id}`}>{customer.address.id}</Link> : ''}</td>
+                  <td>
+                    {customer.image ? (
+                      <div>
+                        {customer.imageContentType ? (
+                          <a onClick={openFile(customer.imageContentType, customer.image)}>
+                            <img src={`data:${customer.imageContentType};base64,${customer.image}`} style={{ maxHeight: '30px' }} />
+                            &nbsp;
+                          </a>
+                        ) : null}
+                        <span>
+                          {customer.imageContentType}, {byteSize(customer.image)}
+                        </span>
+                      </div>
+                    ) : null}
+                  </td>
+                  <td>{customer.addressId ? <Link to={`address/${customer.addressId}`}>{customer.addressId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${customer.id}`} color="info" size="sm">

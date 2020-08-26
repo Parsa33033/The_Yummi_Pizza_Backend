@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.Pizzaria;
 import com.yummipizza.api.repository.PizzariaRepository;
+import com.yummipizza.api.service.PizzariaService;
+import com.yummipizza.api.service.dto.PizzariaDTO;
+import com.yummipizza.api.service.mapper.PizzariaMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,6 +64,12 @@ public class PizzariaResourceIT {
     private PizzariaRepository pizzariaRepository;
 
     @Autowired
+    private PizzariaMapper pizzariaMapper;
+
+    @Autowired
+    private PizzariaService pizzariaService;
+
+    @Autowired
     private EntityManager em;
 
     @Autowired
@@ -117,9 +126,10 @@ public class PizzariaResourceIT {
     public void createPizzaria() throws Exception {
         int databaseSizeBeforeCreate = pizzariaRepository.findAll().size();
         // Create the Pizzaria
+        PizzariaDTO pizzariaDTO = pizzariaMapper.toDto(pizzaria);
         restPizzariaMockMvc.perform(post("/api/pizzarias")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(pizzaria)))
+            .content(TestUtil.convertObjectToJsonBytes(pizzariaDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Pizzaria in the database
@@ -144,11 +154,12 @@ public class PizzariaResourceIT {
 
         // Create the Pizzaria with an existing ID
         pizzaria.setId(1L);
+        PizzariaDTO pizzariaDTO = pizzariaMapper.toDto(pizzaria);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPizzariaMockMvc.perform(post("/api/pizzarias")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(pizzaria)))
+            .content(TestUtil.convertObjectToJsonBytes(pizzariaDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Pizzaria in the database
@@ -230,10 +241,11 @@ public class PizzariaResourceIT {
             .customers(UPDATED_CUSTOMERS)
             .numberOfAwards(UPDATED_NUMBER_OF_AWARDS)
             .pizzaBranches(UPDATED_PIZZA_BRANCHES);
+        PizzariaDTO pizzariaDTO = pizzariaMapper.toDto(updatedPizzaria);
 
         restPizzariaMockMvc.perform(put("/api/pizzarias")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedPizzaria)))
+            .content(TestUtil.convertObjectToJsonBytes(pizzariaDTO)))
             .andExpect(status().isOk());
 
         // Validate the Pizzaria in the database
@@ -256,10 +268,13 @@ public class PizzariaResourceIT {
     public void updateNonExistingPizzaria() throws Exception {
         int databaseSizeBeforeUpdate = pizzariaRepository.findAll().size();
 
+        // Create the Pizzaria
+        PizzariaDTO pizzariaDTO = pizzariaMapper.toDto(pizzaria);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restPizzariaMockMvc.perform(put("/api/pizzarias")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(pizzaria)))
+            .content(TestUtil.convertObjectToJsonBytes(pizzariaDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Pizzaria in the database

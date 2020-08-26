@@ -3,7 +3,10 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.domain.User;
 import com.yummipizza.api.repository.UserRepository;
 import com.yummipizza.api.service.MailService;
+import com.yummipizza.api.service.PizzariaService;
 import com.yummipizza.api.service.UserService;
+import com.yummipizza.api.service.dto.PizzariaDTO;
+import com.yummipizza.api.service.dto.UserDTO;
 import com.yummipizza.api.web.rest.errors.EmailAlreadyUsedException;
 import com.yummipizza.api.web.rest.errors.InvalidPasswordException;
 import com.yummipizza.api.web.rest.errors.LoginAlreadyUsedException;
@@ -18,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/customer/web")
@@ -37,14 +41,18 @@ public class CustomerController {
 
     private final MailService mailService;
 
+    private final PizzariaService pizzariaService;
+
     @Autowired
     UserJWTController userJWTController;
 
-    public CustomerController(UserRepository userRepository, UserService userService, MailService mailService) {
+    public CustomerController(UserRepository userRepository, UserService userService, MailService mailService,
+                              PizzariaService pizzariaService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.pizzariaService = pizzariaService;
     }
 
     /**
@@ -68,6 +76,30 @@ public class CustomerController {
 //        loginVM.setUsername(user.getLogin());
 //        loginVM.setPassword(managedUserVM.getPassword());
 //        return userJWTController.authorize(loginVM);
+    }
+
+    /**
+     * {@code GET  /account} : get the current user.
+     *
+     * @return the current user.
+     * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be returned.
+     */
+    @GetMapping("/account")
+    public UserDTO getAccount() {
+        return userService.getUserWithAuthorities()
+            .map(UserDTO::new)
+            .orElseThrow(() -> new AccountResourceException("User could not be found"));
+    }
+
+    /**
+     * {@code GET  /pizzarias} : get all the pizzarias.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of pizzarias in body.
+     */
+    @GetMapping("/pizzarias")
+    public List<PizzariaDTO> getAllPizzarias() {
+        log.debug("REST request to get all Pizzarias");
+        return pizzariaService.findAll();
     }
 
     private static boolean checkPasswordLength(String password) {

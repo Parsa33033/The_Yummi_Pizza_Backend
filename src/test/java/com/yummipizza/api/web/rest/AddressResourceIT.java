@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.Address;
 import com.yummipizza.api.repository.AddressRepository;
+import com.yummipizza.api.service.AddressService;
+import com.yummipizza.api.service.dto.AddressDTO;
+import com.yummipizza.api.service.mapper.AddressMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +52,12 @@ public class AddressResourceIT {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private AddressMapper addressMapper;
+
+    @Autowired
+    private AddressService addressService;
 
     @Autowired
     private EntityManager em;
@@ -101,9 +110,10 @@ public class AddressResourceIT {
     public void createAddress() throws Exception {
         int databaseSizeBeforeCreate = addressRepository.findAll().size();
         // Create the Address
+        AddressDTO addressDTO = addressMapper.toDto(address);
         restAddressMockMvc.perform(post("/api/addresses")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(address)))
+            .content(TestUtil.convertObjectToJsonBytes(addressDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Address in the database
@@ -125,11 +135,12 @@ public class AddressResourceIT {
 
         // Create the Address with an existing ID
         address.setId(1L);
+        AddressDTO addressDTO = addressMapper.toDto(address);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAddressMockMvc.perform(post("/api/addresses")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(address)))
+            .content(TestUtil.convertObjectToJsonBytes(addressDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Address in the database
@@ -202,10 +213,11 @@ public class AddressResourceIT {
             .city(UPDATED_CITY)
             .address1(UPDATED_ADDRESS_1)
             .address2(UPDATED_ADDRESS_2);
+        AddressDTO addressDTO = addressMapper.toDto(updatedAddress);
 
         restAddressMockMvc.perform(put("/api/addresses")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedAddress)))
+            .content(TestUtil.convertObjectToJsonBytes(addressDTO)))
             .andExpect(status().isOk());
 
         // Validate the Address in the database
@@ -225,10 +237,13 @@ public class AddressResourceIT {
     public void updateNonExistingAddress() throws Exception {
         int databaseSizeBeforeUpdate = addressRepository.findAll().size();
 
+        // Create the Address
+        AddressDTO addressDTO = addressMapper.toDto(address);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAddressMockMvc.perform(put("/api/addresses")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(address)))
+            .content(TestUtil.convertObjectToJsonBytes(addressDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Address in the database

@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { IAddress } from 'app/shared/model/address.model';
 import { getEntities as getAddresses } from 'app/entities/address/address.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './customer.reducer';
+import { getEntity, updateEntity, createEntity, setBlob, reset } from './customer.reducer';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
@@ -21,6 +21,8 @@ export const CustomerUpdate = (props: ICustomerUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
   const { customerEntity, addresses, loading, updating } = props;
+
+  const { image, imageContentType } = customerEntity;
 
   const handleClose = () => {
     props.history.push('/customer');
@@ -35,6 +37,14 @@ export const CustomerUpdate = (props: ICustomerUpdateProps) => {
 
     props.getAddresses();
   }, []);
+
+  const onBlobChange = (isAnImage, name) => event => {
+    setFileData(event, (contentType, data) => props.setBlob(name, data, contentType), isAnImage);
+  };
+
+  const clearBlob = name => () => {
+    props.setBlob(name, undefined, undefined);
+  };
 
   useEffect(() => {
     if (props.updateSuccess) {
@@ -122,8 +132,40 @@ export const CustomerUpdate = (props: ICustomerUpdateProps) => {
                 </AvInput>
               </AvGroup>
               <AvGroup>
+                <AvGroup>
+                  <Label id="imageLabel" for="image">
+                    Image
+                  </Label>
+                  <br />
+                  {image ? (
+                    <div>
+                      {imageContentType ? (
+                        <a onClick={openFile(imageContentType, image)}>
+                          <img src={`data:${imageContentType};base64,${image}`} style={{ maxHeight: '100px' }} />
+                        </a>
+                      ) : null}
+                      <br />
+                      <Row>
+                        <Col md="11">
+                          <span>
+                            {imageContentType}, {byteSize(image)}
+                          </span>
+                        </Col>
+                        <Col md="1">
+                          <Button color="danger" onClick={clearBlob('image')}>
+                            <FontAwesomeIcon icon="times-circle" />
+                          </Button>
+                        </Col>
+                      </Row>
+                    </div>
+                  ) : null}
+                  <input id="file_image" type="file" onChange={onBlobChange(true, 'image')} accept="image/*" />
+                  <AvInput type="hidden" name="image" value={image} />
+                </AvGroup>
+              </AvGroup>
+              <AvGroup>
                 <Label for="customer-address">Address</Label>
-                <AvInput id="customer-address" type="select" className="form-control" name="address.id">
+                <AvInput id="customer-address" type="select" className="form-control" name="addressId">
                   <option value="" key="0" />
                   {addresses
                     ? addresses.map(otherEntity => (
@@ -164,6 +206,7 @@ const mapDispatchToProps = {
   getAddresses,
   getEntity,
   updateEntity,
+  setBlob,
   createEntity,
   reset,
 };

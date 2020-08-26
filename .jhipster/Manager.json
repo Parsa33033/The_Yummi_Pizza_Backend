@@ -25,6 +25,11 @@
       "fieldName": "gender",
       "fieldType": "Gender",
       "fieldValues": "MALE,FEMALE"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "relationships": [
@@ -38,9 +43,9 @@
   ],
   "changelogDate": "20200826070707",
   "entityTableName": "manager",
-  "dto": "no",
+  "dto": "mapstruct",
   "pagination": "no",
-  "service": "no",
+  "service": "serviceClass",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

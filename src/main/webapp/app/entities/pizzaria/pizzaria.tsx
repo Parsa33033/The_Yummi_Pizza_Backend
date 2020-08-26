@@ -64,8 +64,8 @@ export const Pizzaria = (props: IPizzariaProps) => {
                   <td>{pizzaria.customers}</td>
                   <td>{pizzaria.numberOfAwards}</td>
                   <td>{pizzaria.pizzaBranches}</td>
-                  <td>{pizzaria.manager ? <Link to={`manager/${pizzaria.manager.id}`}>{pizzaria.manager.id}</Link> : ''}</td>
-                  <td>{pizzaria.address ? <Link to={`address/${pizzaria.address.id}`}>{pizzaria.address.id}</Link> : ''}</td>
+                  <td>{pizzaria.managerId ? <Link to={`manager/${pizzaria.managerId}`}>{pizzaria.managerId}</Link> : ''}</td>
+                  <td>{pizzaria.addressId ? <Link to={`address/${pizzaria.addressId}`}>{pizzaria.addressId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${pizzaria.id}`} color="info" size="sm">

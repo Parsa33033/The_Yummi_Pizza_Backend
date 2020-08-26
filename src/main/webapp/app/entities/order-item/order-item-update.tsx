@@ -88,7 +88,7 @@ export const OrderItemUpdate = (props: IOrderItemUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="order-item-menuItem">Menu Item</Label>
-                <AvInput id="order-item-menuItem" type="select" className="form-control" name="menuItem.id">
+                <AvInput id="order-item-menuItem" type="select" className="form-control" name="menuItemId">
                   <option value="" key="0" />
                   {menuItems
                     ? menuItems.map(otherEntity => (
@@ -101,7 +101,7 @@ export const OrderItemUpdate = (props: IOrderItemUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="order-item-order">Order</Label>
-                <AvInput id="order-item-order" type="select" className="form-control" name="order.id">
+                <AvInput id="order-item-order" type="select" className="form-control" name="orderId">
                   <option value="" key="0" />
                   {orders
                     ? orders.map(otherEntity => (

@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.MenuItem;
 import com.yummipizza.api.repository.MenuItemRepository;
+import com.yummipizza.api.service.MenuItemService;
+import com.yummipizza.api.service.dto.MenuItemDTO;
+import com.yummipizza.api.service.mapper.MenuItemMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,6 +66,12 @@ public class MenuItemResourceIT {
     private MenuItemRepository menuItemRepository;
 
     @Autowired
+    private MenuItemMapper menuItemMapper;
+
+    @Autowired
+    private MenuItemService menuItemService;
+
+    @Autowired
     private EntityManager em;
 
     @Autowired
@@ -121,9 +130,10 @@ public class MenuItemResourceIT {
     public void createMenuItem() throws Exception {
         int databaseSizeBeforeCreate = menuItemRepository.findAll().size();
         // Create the MenuItem
+        MenuItemDTO menuItemDTO = menuItemMapper.toDto(menuItem);
         restMenuItemMockMvc.perform(post("/api/menu-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(menuItem)))
+            .content(TestUtil.convertObjectToJsonBytes(menuItemDTO)))
             .andExpect(status().isCreated());
 
         // Validate the MenuItem in the database
@@ -149,11 +159,12 @@ public class MenuItemResourceIT {
 
         // Create the MenuItem with an existing ID
         menuItem.setId(1L);
+        MenuItemDTO menuItemDTO = menuItemMapper.toDto(menuItem);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMenuItemMockMvc.perform(post("/api/menu-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(menuItem)))
+            .content(TestUtil.convertObjectToJsonBytes(menuItemDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the MenuItem in the database
@@ -238,10 +249,11 @@ public class MenuItemResourceIT {
             .picJpgContentType(UPDATED_PIC_JPG_CONTENT_TYPE)
             .picPng(UPDATED_PIC_PNG)
             .picPngContentType(UPDATED_PIC_PNG_CONTENT_TYPE);
+        MenuItemDTO menuItemDTO = menuItemMapper.toDto(updatedMenuItem);
 
         restMenuItemMockMvc.perform(put("/api/menu-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedMenuItem)))
+            .content(TestUtil.convertObjectToJsonBytes(menuItemDTO)))
             .andExpect(status().isOk());
 
         // Validate the MenuItem in the database
@@ -265,10 +277,13 @@ public class MenuItemResourceIT {
     public void updateNonExistingMenuItem() throws Exception {
         int databaseSizeBeforeUpdate = menuItemRepository.findAll().size();
 
+        // Create the MenuItem
+        MenuItemDTO menuItemDTO = menuItemMapper.toDto(menuItem);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restMenuItemMockMvc.perform(put("/api/menu-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(menuItem)))
+            .content(TestUtil.convertObjectToJsonBytes(menuItemDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the MenuItem in the database

@@ -53,9 +53,9 @@ export const Order = (props: IOrderProps) => {
                   <td>{order.date ? <TextFormat type="date" value={order.date} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
                   <td>{order.totalPrice}</td>
                   <td>{order.delivered ? 'true' : 'false'}</td>
-                  <td>{order.address ? <Link to={`address/${order.address.id}`}>{order.address.id}</Link> : ''}</td>
-                  <td>{order.customer ? <Link to={`customer/${order.customer.id}`}>{order.customer.id}</Link> : ''}</td>
-                  <td>{order.pizzaria ? <Link to={`pizzaria/${order.pizzaria.id}`}>{order.pizzaria.id}</Link> : ''}</td>
+                  <td>{order.addressId ? <Link to={`address/${order.addressId}`}>{order.addressId}</Link> : ''}</td>
+                  <td>{order.customerId ? <Link to={`customer/${order.customerId}`}>{order.customerId}</Link> : ''}</td>
+                  <td>{order.pizzariaId ? <Link to={`pizzaria/${order.pizzariaId}`}>{order.pizzariaId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${order.id}`} color="info" size="sm">

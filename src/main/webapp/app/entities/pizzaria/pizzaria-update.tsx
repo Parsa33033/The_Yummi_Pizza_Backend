@@ -146,7 +146,7 @@ export const PizzariaUpdate = (props: IPizzariaUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="pizzaria-manager">Manager</Label>
-                <AvInput id="pizzaria-manager" type="select" className="form-control" name="manager.id">
+                <AvInput id="pizzaria-manager" type="select" className="form-control" name="managerId">
                   <option value="" key="0" />
                   {managers
                     ? managers.map(otherEntity => (
@@ -159,7 +159,7 @@ export const PizzariaUpdate = (props: IPizzariaUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="pizzaria-address">Address</Label>
-                <AvInput id="pizzaria-address" type="select" className="form-control" name="address.id">
+                <AvInput id="pizzaria-address" type="select" className="form-control" name="addressId">
                   <option value="" key="0" />
                   {addresses
                     ? addresses.map(otherEntity => (

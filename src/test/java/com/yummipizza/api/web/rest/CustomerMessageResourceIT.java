@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.CustomerMessage;
 import com.yummipizza.api.repository.CustomerMessageRepository;
+import com.yummipizza.api.service.CustomerMessageService;
+import com.yummipizza.api.service.dto.CustomerMessageDTO;
+import com.yummipizza.api.service.mapper.CustomerMessageMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +47,12 @@ public class CustomerMessageResourceIT {
 
     @Autowired
     private CustomerMessageRepository customerMessageRepository;
+
+    @Autowired
+    private CustomerMessageMapper customerMessageMapper;
+
+    @Autowired
+    private CustomerMessageService customerMessageService;
 
     @Autowired
     private EntityManager em;
@@ -92,9 +101,10 @@ public class CustomerMessageResourceIT {
     public void createCustomerMessage() throws Exception {
         int databaseSizeBeforeCreate = customerMessageRepository.findAll().size();
         // Create the CustomerMessage
+        CustomerMessageDTO customerMessageDTO = customerMessageMapper.toDto(customerMessage);
         restCustomerMessageMockMvc.perform(post("/api/customer-messages")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(customerMessage)))
+            .content(TestUtil.convertObjectToJsonBytes(customerMessageDTO)))
             .andExpect(status().isCreated());
 
         // Validate the CustomerMessage in the database
@@ -114,11 +124,12 @@ public class CustomerMessageResourceIT {
 
         // Create the CustomerMessage with an existing ID
         customerMessage.setId(1L);
+        CustomerMessageDTO customerMessageDTO = customerMessageMapper.toDto(customerMessage);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCustomerMessageMockMvc.perform(post("/api/customer-messages")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(customerMessage)))
+            .content(TestUtil.convertObjectToJsonBytes(customerMessageDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the CustomerMessage in the database
@@ -185,10 +196,11 @@ public class CustomerMessageResourceIT {
             .email(UPDATED_EMAIL)
             .subject(UPDATED_SUBJECT)
             .message(UPDATED_MESSAGE);
+        CustomerMessageDTO customerMessageDTO = customerMessageMapper.toDto(updatedCustomerMessage);
 
         restCustomerMessageMockMvc.perform(put("/api/customer-messages")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedCustomerMessage)))
+            .content(TestUtil.convertObjectToJsonBytes(customerMessageDTO)))
             .andExpect(status().isOk());
 
         // Validate the CustomerMessage in the database
@@ -206,10 +218,13 @@ public class CustomerMessageResourceIT {
     public void updateNonExistingCustomerMessage() throws Exception {
         int databaseSizeBeforeUpdate = customerMessageRepository.findAll().size();
 
+        // Create the CustomerMessage
+        CustomerMessageDTO customerMessageDTO = customerMessageMapper.toDto(customerMessage);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restCustomerMessageMockMvc.perform(put("/api/customer-messages")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(customerMessage)))
+            .content(TestUtil.convertObjectToJsonBytes(customerMessageDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the CustomerMessage in the database

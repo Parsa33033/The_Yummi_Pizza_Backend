@@ -104,7 +104,7 @@ export const OrderUpdate = (props: IOrderUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="order-address">Address</Label>
-                <AvInput id="order-address" type="select" className="form-control" name="address.id">
+                <AvInput id="order-address" type="select" className="form-control" name="addressId">
                   <option value="" key="0" />
                   {addresses
                     ? addresses.map(otherEntity => (
@@ -117,7 +117,7 @@ export const OrderUpdate = (props: IOrderUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="order-customer">Customer</Label>
-                <AvInput id="order-customer" type="select" className="form-control" name="customer.id">
+                <AvInput id="order-customer" type="select" className="form-control" name="customerId">
                   <option value="" key="0" />
                   {customers
                     ? customers.map(otherEntity => (
@@ -130,7 +130,7 @@ export const OrderUpdate = (props: IOrderUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="order-pizzaria">Pizzaria</Label>
-                <AvInput id="order-pizzaria" type="select" className="form-control" name="pizzaria.id">
+                <AvInput id="order-pizzaria" type="select" className="form-control" name="pizzariaId">
                   <option value="" key="0" />
                   {pizzarias
                     ? pizzarias.map(otherEntity => (

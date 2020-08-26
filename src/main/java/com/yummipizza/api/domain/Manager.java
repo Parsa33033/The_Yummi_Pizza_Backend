@@ -40,6 +40,13 @@ public class Manager implements Serializable {
     @Column(name = "gender")
     private Gender gender;
 
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
+
     @OneToOne(mappedBy = "manager")
     @JsonIgnore
     private Pizzaria pizzaria;
@@ -131,6 +138,32 @@ public class Manager implements Serializable {
         this.gender = gender;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public Manager image(byte[] image) {
+        this.image = image;
+        return this;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public Manager imageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+        return this;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
     public Pizzaria getPizzaria() {
         return pizzaria;
     }
@@ -172,6 +205,8 @@ public class Manager implements Serializable {
             ", lastName='" + getLastName() + "'" +
             ", mobileNumber='" + getMobileNumber() + "'" +
             ", gender='" + getGender() + "'" +
+            ", image='" + getImage() + "'" +
+            ", imageContentType='" + getImageContentType() + "'" +
             "}";
     }
 }

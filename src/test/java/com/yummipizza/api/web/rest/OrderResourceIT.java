@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.Order;
 import com.yummipizza.api.repository.OrderRepository;
+import com.yummipizza.api.service.OrderService;
+import com.yummipizza.api.service.dto.OrderDTO;
+import com.yummipizza.api.service.mapper.OrderMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +45,12 @@ public class OrderResourceIT {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private EntityManager em;
@@ -88,9 +97,10 @@ public class OrderResourceIT {
     public void createOrder() throws Exception {
         int databaseSizeBeforeCreate = orderRepository.findAll().size();
         // Create the Order
+        OrderDTO orderDTO = orderMapper.toDto(order);
         restOrderMockMvc.perform(post("/api/orders")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(order)))
+            .content(TestUtil.convertObjectToJsonBytes(orderDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Order in the database
@@ -109,11 +119,12 @@ public class OrderResourceIT {
 
         // Create the Order with an existing ID
         order.setId(1L);
+        OrderDTO orderDTO = orderMapper.toDto(order);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restOrderMockMvc.perform(post("/api/orders")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(order)))
+            .content(TestUtil.convertObjectToJsonBytes(orderDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Order in the database
@@ -177,10 +188,11 @@ public class OrderResourceIT {
             .date(UPDATED_DATE)
             .totalPrice(UPDATED_TOTAL_PRICE)
             .delivered(UPDATED_DELIVERED);
+        OrderDTO orderDTO = orderMapper.toDto(updatedOrder);
 
         restOrderMockMvc.perform(put("/api/orders")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedOrder)))
+            .content(TestUtil.convertObjectToJsonBytes(orderDTO)))
             .andExpect(status().isOk());
 
         // Validate the Order in the database
@@ -197,10 +209,13 @@ public class OrderResourceIT {
     public void updateNonExistingOrder() throws Exception {
         int databaseSizeBeforeUpdate = orderRepository.findAll().size();
 
+        // Create the Order
+        OrderDTO orderDTO = orderMapper.toDto(order);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restOrderMockMvc.perform(put("/api/orders")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(order)))
+            .content(TestUtil.convertObjectToJsonBytes(orderDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Order in the database

@@ -50,7 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/h2-console/**")
             .antMatchers("/swagger-ui/index.html")
             .antMatchers("/test/**")
-            .antMatchers("/api/customer/web/register");
+            .antMatchers("/api/customer/web/register")
+            .antMatchers("/api/customer/web/pizzarias");
     }
 
     @Override
@@ -79,6 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers("/api/customer/web/register").permitAll()
+            .antMatchers("/api/customer/web/pizzarias").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()

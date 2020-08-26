@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { ICrudGetAction } from 'react-jhipster';
+import { ICrudGetAction, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -49,6 +49,23 @@ export const ManagerDetail = (props: IManagerDetailProps) => {
             <span id="gender">Gender</span>
           </dt>
           <dd>{managerEntity.gender}</dd>
+          <dt>
+            <span id="image">Image</span>
+          </dt>
+          <dd>
+            {managerEntity.image ? (
+              <div>
+                {managerEntity.imageContentType ? (
+                  <a onClick={openFile(managerEntity.imageContentType, managerEntity.image)}>
+                    <img src={`data:${managerEntity.imageContentType};base64,${managerEntity.image}`} style={{ maxHeight: '30px' }} />
+                  </a>
+                ) : null}
+                <span>
+                  {managerEntity.imageContentType}, {byteSize(managerEntity.image)}
+                </span>
+              </div>
+            ) : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/manager" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

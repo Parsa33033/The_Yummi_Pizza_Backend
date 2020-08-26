@@ -48,8 +48,8 @@ export const OrderItem = (props: IOrderItemProps) => {
                     </Button>
                   </td>
                   <td>{orderItem.number}</td>
-                  <td>{orderItem.menuItem ? <Link to={`menu-item/${orderItem.menuItem.id}`}>{orderItem.menuItem.id}</Link> : ''}</td>
-                  <td>{orderItem.order ? <Link to={`order/${orderItem.order.id}`}>{orderItem.order.id}</Link> : ''}</td>
+                  <td>{orderItem.menuItemId ? <Link to={`menu-item/${orderItem.menuItemId}`}>{orderItem.menuItemId}</Link> : ''}</td>
+                  <td>{orderItem.orderId ? <Link to={`order/${orderItem.orderId}`}>{orderItem.orderId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${orderItem.id}`} color="info" size="sm">

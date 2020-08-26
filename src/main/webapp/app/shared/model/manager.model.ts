@@ -1,4 +1,3 @@
-import { IPizzaria } from 'app/shared/model/pizzaria.model';
 import { Gender } from 'app/shared/model/enumerations/gender.model';
 
 export interface IManager {
@@ -9,7 +8,9 @@ export interface IManager {
   lastName?: string;
   mobileNumber?: string;
   gender?: Gender;
-  pizzaria?: IPizzaria;
+  imageContentType?: string;
+  image?: any;
+  pizzariaId?: number;
 }
 
 export const defaultValue: Readonly<IManager> = {};

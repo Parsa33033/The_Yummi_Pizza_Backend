@@ -38,11 +38,11 @@ export const OrderDetail = (props: IOrderDetailProps) => {
           </dt>
           <dd>{orderEntity.delivered ? 'true' : 'false'}</dd>
           <dt>Address</dt>
-          <dd>{orderEntity.address ? orderEntity.address.id : ''}</dd>
+          <dd>{orderEntity.addressId ? orderEntity.addressId : ''}</dd>
           <dt>Customer</dt>
-          <dd>{orderEntity.customer ? orderEntity.customer.id : ''}</dd>
+          <dd>{orderEntity.customerId ? orderEntity.customerId : ''}</dd>
           <dt>Pizzaria</dt>
-          <dd>{orderEntity.pizzaria ? orderEntity.pizzaria.id : ''}</dd>
+          <dd>{orderEntity.pizzariaId ? orderEntity.pizzariaId : ''}</dd>
         </dl>
         <Button tag={Link} to="/order" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

@@ -89,7 +89,7 @@ export const MenuItem = (props: IMenuItemProps) => {
                       </div>
                     ) : null}
                   </td>
-                  <td>{menuItem.pizzaria ? <Link to={`pizzaria/${menuItem.pizzaria.id}`}>{menuItem.pizzaria.id}</Link> : ''}</td>
+                  <td>{menuItem.pizzariaId ? <Link to={`pizzaria/${menuItem.pizzariaId}`}>{menuItem.pizzariaId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${menuItem.id}`} color="info" size="sm">

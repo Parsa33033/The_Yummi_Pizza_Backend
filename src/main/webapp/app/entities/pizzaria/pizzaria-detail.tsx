@@ -62,9 +62,9 @@ export const PizzariaDetail = (props: IPizzariaDetailProps) => {
           </dt>
           <dd>{pizzariaEntity.pizzaBranches}</dd>
           <dt>Manager</dt>
-          <dd>{pizzariaEntity.manager ? pizzariaEntity.manager.id : ''}</dd>
+          <dd>{pizzariaEntity.managerId ? pizzariaEntity.managerId : ''}</dd>
           <dt>Address</dt>
-          <dd>{pizzariaEntity.address ? pizzariaEntity.address.id : ''}</dd>
+          <dd>{pizzariaEntity.addressId ? pizzariaEntity.addressId : ''}</dd>
         </dl>
         <Button tag={Link} to="/pizzaria" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

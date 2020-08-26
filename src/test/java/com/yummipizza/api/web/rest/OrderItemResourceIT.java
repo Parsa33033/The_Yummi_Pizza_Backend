@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.OrderItem;
 import com.yummipizza.api.repository.OrderItemRepository;
+import com.yummipizza.api.service.OrderItemService;
+import com.yummipizza.api.service.dto.OrderItemDTO;
+import com.yummipizza.api.service.mapper.OrderItemMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +37,12 @@ public class OrderItemResourceIT {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private OrderItemMapper orderItemMapper;
+
+    @Autowired
+    private OrderItemService orderItemService;
 
     @Autowired
     private EntityManager em;
@@ -76,9 +85,10 @@ public class OrderItemResourceIT {
     public void createOrderItem() throws Exception {
         int databaseSizeBeforeCreate = orderItemRepository.findAll().size();
         // Create the OrderItem
+        OrderItemDTO orderItemDTO = orderItemMapper.toDto(orderItem);
         restOrderItemMockMvc.perform(post("/api/order-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(orderItem)))
+            .content(TestUtil.convertObjectToJsonBytes(orderItemDTO)))
             .andExpect(status().isCreated());
 
         // Validate the OrderItem in the database
@@ -95,11 +105,12 @@ public class OrderItemResourceIT {
 
         // Create the OrderItem with an existing ID
         orderItem.setId(1L);
+        OrderItemDTO orderItemDTO = orderItemMapper.toDto(orderItem);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restOrderItemMockMvc.perform(post("/api/order-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(orderItem)))
+            .content(TestUtil.convertObjectToJsonBytes(orderItemDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the OrderItem in the database
@@ -157,10 +168,11 @@ public class OrderItemResourceIT {
         em.detach(updatedOrderItem);
         updatedOrderItem
             .number(UPDATED_NUMBER);
+        OrderItemDTO orderItemDTO = orderItemMapper.toDto(updatedOrderItem);
 
         restOrderItemMockMvc.perform(put("/api/order-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedOrderItem)))
+            .content(TestUtil.convertObjectToJsonBytes(orderItemDTO)))
             .andExpect(status().isOk());
 
         // Validate the OrderItem in the database
@@ -175,10 +187,13 @@ public class OrderItemResourceIT {
     public void updateNonExistingOrderItem() throws Exception {
         int databaseSizeBeforeUpdate = orderItemRepository.findAll().size();
 
+        // Create the OrderItem
+        OrderItemDTO orderItemDTO = orderItemMapper.toDto(orderItem);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restOrderItemMockMvc.perform(put("/api/order-items")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(orderItem)))
+            .content(TestUtil.convertObjectToJsonBytes(orderItemDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the OrderItem in the database

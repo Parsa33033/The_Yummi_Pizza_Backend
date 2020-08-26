@@ -3,6 +3,9 @@ package com.yummipizza.api.web.rest;
 import com.yummipizza.api.TheYummiPizzaBackendApp;
 import com.yummipizza.api.domain.Rating;
 import com.yummipizza.api.repository.RatingRepository;
+import com.yummipizza.api.service.RatingService;
+import com.yummipizza.api.service.dto.RatingDTO;
+import com.yummipizza.api.service.mapper.RatingMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,6 +43,12 @@ public class RatingResourceIT {
 
     @Autowired
     private RatingRepository ratingRepository;
+
+    @Autowired
+    private RatingMapper ratingMapper;
+
+    @Autowired
+    private RatingService ratingService;
 
     @Autowired
     private EntityManager em;
@@ -86,9 +95,10 @@ public class RatingResourceIT {
     public void createRating() throws Exception {
         int databaseSizeBeforeCreate = ratingRepository.findAll().size();
         // Create the Rating
+        RatingDTO ratingDTO = ratingMapper.toDto(rating);
         restRatingMockMvc.perform(post("/api/ratings")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Rating in the database
@@ -107,11 +117,12 @@ public class RatingResourceIT {
 
         // Create the Rating with an existing ID
         rating.setId(1L);
+        RatingDTO ratingDTO = ratingMapper.toDto(rating);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restRatingMockMvc.perform(post("/api/ratings")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Rating in the database
@@ -175,10 +186,11 @@ public class RatingResourceIT {
             .customerId(UPDATED_CUSTOMER_ID)
             .menuItemId(UPDATED_MENU_ITEM_ID)
             .rating(UPDATED_RATING);
+        RatingDTO ratingDTO = ratingMapper.toDto(updatedRating);
 
         restRatingMockMvc.perform(put("/api/ratings")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedRating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isOk());
 
         // Validate the Rating in the database
@@ -195,10 +207,13 @@ public class RatingResourceIT {
     public void updateNonExistingRating() throws Exception {
         int databaseSizeBeforeUpdate = ratingRepository.findAll().size();
 
+        // Create the Rating
+        RatingDTO ratingDTO = ratingMapper.toDto(rating);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRatingMockMvc.perform(put("/api/ratings")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Rating in the database

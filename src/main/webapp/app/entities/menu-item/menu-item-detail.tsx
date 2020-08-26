@@ -84,7 +84,7 @@ export const MenuItemDetail = (props: IMenuItemDetailProps) => {
             ) : null}
           </dd>
           <dt>Pizzaria</dt>
-          <dd>{menuItemEntity.pizzaria ? menuItemEntity.pizzaria.id : ''}</dd>
+          <dd>{menuItemEntity.pizzariaId ? menuItemEntity.pizzariaId : ''}</dd>
         </dl>
         <Button tag={Link} to="/menu-item" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

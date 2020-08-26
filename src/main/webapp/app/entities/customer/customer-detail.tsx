@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { ICrudGetAction } from 'react-jhipster';
+import { ICrudGetAction, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -49,8 +49,25 @@ export const CustomerDetail = (props: ICustomerDetailProps) => {
             <span id="gender">Gender</span>
           </dt>
           <dd>{customerEntity.gender}</dd>
+          <dt>
+            <span id="image">Image</span>
+          </dt>
+          <dd>
+            {customerEntity.image ? (
+              <div>
+                {customerEntity.imageContentType ? (
+                  <a onClick={openFile(customerEntity.imageContentType, customerEntity.image)}>
+                    <img src={`data:${customerEntity.imageContentType};base64,${customerEntity.image}`} style={{ maxHeight: '30px' }} />
+                  </a>
+                ) : null}
+                <span>
+                  {customerEntity.imageContentType}, {byteSize(customerEntity.image)}
+                </span>
+              </div>
+            ) : null}
+          </dd>
           <dt>Address</dt>
-          <dd>{customerEntity.address ? customerEntity.address.id : ''}</dd>
+          <dd>{customerEntity.addressId ? customerEntity.addressId : ''}</dd>
         </dl>
         <Button tag={Link} to="/customer" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

@@ -1,4 +1,3 @@
-import { IAddress } from 'app/shared/model/address.model';
 import { IOrder } from 'app/shared/model/order.model';
 import { Gender } from 'app/shared/model/enumerations/gender.model';
 
@@ -10,7 +9,9 @@ export interface ICustomer {
   lastName?: string;
   mobileNumber?: string;
   gender?: Gender;
-  address?: IAddress;
+  imageContentType?: string;
+  image?: any;
+  addressId?: number;
   orders?: IOrder[];
 }
 
