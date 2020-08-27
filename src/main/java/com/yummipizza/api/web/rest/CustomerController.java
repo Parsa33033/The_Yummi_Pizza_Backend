@@ -6,10 +6,7 @@ import com.yummipizza.api.domain.User;
 import com.yummipizza.api.repository.AddressRepository;
 import com.yummipizza.api.repository.PizzariaRepository;
 import com.yummipizza.api.repository.UserRepository;
-import com.yummipizza.api.service.CustomerMessageService;
-import com.yummipizza.api.service.MailService;
-import com.yummipizza.api.service.PizzariaService;
-import com.yummipizza.api.service.UserService;
+import com.yummipizza.api.service.*;
 import com.yummipizza.api.service.dto.*;
 import com.yummipizza.api.service.mapper.AddressMapper;
 import com.yummipizza.api.service.mapper.CustomerMessageMapper;
@@ -56,13 +53,15 @@ public class CustomerController {
 
     private final CustomerMessageService customerMessageService;
 
+    private final MenuItemService menuItemService;
+
     @Autowired
     UserJWTController userJWTController;
 
     public CustomerController(UserRepository userRepository, UserService userService, MailService mailService,
                               PizzariaRepository pizzariaRepository, PizzariaMapper pizzariaMapper,
                               AddressRepository addressRepository, AddressMapper addressMapper,
-                              CustomerMessageService customerMessageService) {
+                              CustomerMessageService customerMessageService, MenuItemService menuItemService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
@@ -72,6 +71,7 @@ public class CustomerController {
         this.addressRepository = addressRepository;
         this.addressMapper = addressMapper;
         this.customerMessageService = customerMessageService;
+        this.menuItemService = menuItemService;
     }
 
     /**
@@ -134,6 +134,23 @@ public class CustomerController {
         message.setName(customerMessageDTO.getName());
         message.setSubject(customerMessageDTO.getSubject());
         mailService.sendCustomerMessageEmailFromTemplate(message,  "mail/customerMessage", "email.customer.message.subject");
+    }
+
+
+    /**
+     * {@code GET  /menu-items} : get all the menuItems.
+     *
+     * @param filter the filter of the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of menuItems in body.
+     */
+    @GetMapping("/menu-items")
+    public List<MenuItemDTO> getAllMenuItems(@RequestParam(required = false) String filter) {
+        if ("orderitem-is-null".equals(filter)) {
+            log.debug("REST request to get all MenuItems where orderItem is null");
+            return menuItemService.findAllWhereOrderItemIsNull();
+        }
+        log.debug("REST request to get all MenuItems");
+        return menuItemService.findAll();
     }
 
     private static boolean checkPasswordLength(String password) {

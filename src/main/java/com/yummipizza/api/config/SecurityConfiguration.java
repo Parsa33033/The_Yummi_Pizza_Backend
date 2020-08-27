@@ -52,7 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/test/**")
             .antMatchers("/api/customer/web/register")
             .antMatchers("/api/customer/web/pizzarias")
-            .antMatchers("/api/customer/web/customer-message");
+            .antMatchers("/api/customer/web/customer-message")
+            .antMatchers("/api/customer/web/menu-items");
     }
 
     @Override
@@ -83,6 +84,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/customer/web/register").permitAll()
             .antMatchers("/api/customer/web/pizzarias").permitAll()
             .antMatchers("/api/customer/web/customer-message").permitAll()
+            .antMatchers("/api/customer/web/menu-items").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
