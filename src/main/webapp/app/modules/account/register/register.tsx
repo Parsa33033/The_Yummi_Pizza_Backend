@@ -21,7 +21,7 @@ export const RegisterPage = (props: IRegisterProps) => {
   );
 
   const handleValidSubmit = (event, values) => {
-    props.handleRegister(values.username, values.email, values.firstPassword);
+    props.handleRegister(values.email, values.email, values.firstPassword);
     event.preventDefault();
   };
 
@@ -31,26 +31,26 @@ export const RegisterPage = (props: IRegisterProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h1 id="register-title">Registration</h1>
+          <h1 id="register-title">Manager Registration</h1>
         </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
           <AvForm id="register-form" onValidSubmit={handleValidSubmit}>
-            <AvField
-              name="username"
-              label="Username"
-              placeholder={'Your username'}
-              validate={{
-                required: { value: true, errorMessage: 'Your username is required.' },
-                pattern: {
-                  value: '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$',
-                  errorMessage: 'Your username is invalid.',
-                },
-                minLength: { value: 1, errorMessage: 'Your username is required to be at least 1 character.' },
-                maxLength: { value: 50, errorMessage: 'Your username cannot be longer than 50 characters.' },
-              }}
-            />
+            {/*<AvField*/}
+            {/*  name="username"*/}
+            {/*  label="Username"*/}
+            {/*  placeholder={'Your username'}*/}
+            {/*  validate={{*/}
+            {/*    required: { value: true, errorMessage: 'Your username is required.' },*/}
+            {/*    pattern: {*/}
+            {/*      value: '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$',*/}
+            {/*      errorMessage: 'Your username is invalid.',*/}
+            {/*    },*/}
+            {/*    minLength: { value: 1, errorMessage: 'Your username is required to be at least 1 character.' },*/}
+            {/*    maxLength: { value: 50, errorMessage: 'Your username cannot be longer than 50 characters.' },*/}
+            {/*  }}*/}
+            {/*/>*/}
             <AvField
               name="email"
               label="Email"

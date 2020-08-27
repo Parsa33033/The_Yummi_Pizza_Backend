@@ -15,4 +15,12 @@ public class DummyOrderItemDTO extends OrderItemDTO {
         this.setNumber(orderItemDTO.getNumber());
         this.setOrderId(orderItemDTO.getOrderId());
     }
+
+    public DummyMenuItemDTO getMenuItem() {
+        return menuItem;
+    }
+
+    public void setMenuItem(DummyMenuItemDTO menuItem) {
+        this.menuItem = menuItem;
+    }
 }

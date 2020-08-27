@@ -1,21 +1,23 @@
 package com.yummipizza.api.web.rest;
 
+import com.yummipizza.api.domain.Customer;
 import com.yummipizza.api.domain.CustomerMessage;
 import com.yummipizza.api.domain.Pizzaria;
 import com.yummipizza.api.domain.User;
 import com.yummipizza.api.repository.AddressRepository;
+import com.yummipizza.api.repository.CustomerRepository;
 import com.yummipizza.api.repository.PizzariaRepository;
 import com.yummipizza.api.repository.UserRepository;
+import com.yummipizza.api.security.SecurityUtils;
 import com.yummipizza.api.service.*;
 import com.yummipizza.api.service.dto.*;
-import com.yummipizza.api.service.mapper.AddressMapper;
-import com.yummipizza.api.service.mapper.CustomerMessageMapper;
-import com.yummipizza.api.service.mapper.PizzariaMapper;
+import com.yummipizza.api.service.mapper.*;
 import com.yummipizza.api.web.rest.errors.EmailAlreadyUsedException;
 import com.yummipizza.api.web.rest.errors.InvalidPasswordException;
 import com.yummipizza.api.web.rest.errors.LoginAlreadyUsedException;
 import com.yummipizza.api.web.rest.vm.LoginVM;
 import com.yummipizza.api.web.rest.vm.ManagedUserVM;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/customer/web")
@@ -54,6 +58,15 @@ public class CustomerController {
     private final CustomerMessageService customerMessageService;
 
     private final MenuItemService menuItemService;
+    private final MenuItemMapper menuItemMapper;
+
+    private final OrderItemMapper orderItemMapper;
+
+    private final OrderMapper orderMapper;
+
+    private final CustomerService customerService;
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
     @Autowired
     UserJWTController userJWTController;
@@ -61,7 +74,10 @@ public class CustomerController {
     public CustomerController(UserRepository userRepository, UserService userService, MailService mailService,
                               PizzariaRepository pizzariaRepository, PizzariaMapper pizzariaMapper,
                               AddressRepository addressRepository, AddressMapper addressMapper,
-                              CustomerMessageService customerMessageService, MenuItemService menuItemService) {
+                              CustomerMessageService customerMessageService, MenuItemService menuItemService,
+                              CustomerRepository customerRepository, CustomerMapper customerMapper,
+                              MenuItemMapper menuItemMapper, OrderItemMapper orderItemMapper,
+                              OrderMapper orderMapper, CustomerService customerService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
@@ -72,6 +88,12 @@ public class CustomerController {
         this.addressMapper = addressMapper;
         this.customerMessageService = customerMessageService;
         this.menuItemService = menuItemService;
+        this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
+        this.menuItemMapper = menuItemMapper;
+        this.orderItemMapper = orderItemMapper;
+        this.orderMapper = orderMapper;
+        this.customerService = customerService;
     }
 
     /**
@@ -88,7 +110,11 @@ public class CustomerController {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(), true);
+        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(), true, false);
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setUsername(user.getLogin());
+        customerDTO.setEmail(user.getEmail());
+        customerService.save(customerDTO);
         mailService.sendActivationEmail(user);
 
 //        LoginVM loginVM = new LoginVM();
@@ -152,6 +178,34 @@ public class CustomerController {
         log.debug("REST request to get all MenuItems");
         return menuItemService.findAll();
     }
+
+    /**
+     * {@code GET  /customers/:id} : get the "id" customer.
+     *
+     * @param id the id of the customerDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the customerDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/customers")
+    public ResponseEntity<DummyCustomerDTO> getCustomer(@PathVariable Long id) {
+        String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Customer customer = customerRepository.findByEmail(userLogin).get();
+        DummyCustomerDTO dummyCustomerDTO = new DummyCustomerDTO(customerMapper.toDto(customer));
+        dummyCustomerDTO.setAddress(new DummyAddressDTO(addressMapper.toDto(customer.getAddress())));
+        List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
+            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((item) -> {
+                DummyMenuItemDTO dummyMenuItemDTO = new DummyMenuItemDTO(menuItemMapper.toDto(item.getMenuItem()));
+                DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(item));
+                dummyOrderItemDTO.setMenuItem(dummyMenuItemDTO);
+                return dummyOrderItemDTO;
+            }).collect(Collectors.toList());
+            DummyOrderDTO dummyOrderDTO = new DummyOrderDTO(orderMapper.toDto(order));
+            dummyOrderDTO.setItems(dummyOrderItemDTOList);
+            return dummyOrderDTO;
+        }).collect(Collectors.toList());
+        dummyCustomerDTO.setOrders(dummyOrderDTOList);
+        return ResponseEntity.ok(dummyCustomerDTO);
+    }
+
 
     private static boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&
