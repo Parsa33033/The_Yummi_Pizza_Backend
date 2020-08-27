@@ -35,7 +35,7 @@ public class Order implements Serializable {
     @JoinColumn(unique = true)
     private Address address;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private Set<OrderItem> items = new HashSet<>();
 
     @ManyToOne

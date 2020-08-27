@@ -52,6 +52,7 @@ public class CustomerController {
     private final PizzariaRepository pizzariaRepository;
     private final PizzariaMapper pizzariaMapper;
 
+    private final AddressService addressService;
     private final AddressRepository addressRepository;
     private final AddressMapper addressMapper;
 
@@ -60,8 +61,10 @@ public class CustomerController {
     private final MenuItemService menuItemService;
     private final MenuItemMapper menuItemMapper;
 
+    private final OrderItemService orderItemService;
     private final OrderItemMapper orderItemMapper;
 
+    private final OrderService orderService;
     private final OrderMapper orderMapper;
 
     private final CustomerService customerService;
@@ -77,7 +80,8 @@ public class CustomerController {
                               CustomerMessageService customerMessageService, MenuItemService menuItemService,
                               CustomerRepository customerRepository, CustomerMapper customerMapper,
                               MenuItemMapper menuItemMapper, OrderItemMapper orderItemMapper,
-                              OrderMapper orderMapper, CustomerService customerService) {
+                              OrderMapper orderMapper, CustomerService customerService, OrderService orderService,
+                              OrderItemService orderItemService, AddressService addressService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
@@ -94,6 +98,9 @@ public class CustomerController {
         this.orderItemMapper = orderItemMapper;
         this.orderMapper = orderMapper;
         this.customerService = customerService;
+        this.orderService = orderService;
+        this.orderItemService = orderItemService;
+        this.addressService = addressService;
     }
 
     /**
@@ -206,6 +213,20 @@ public class CustomerController {
         return ResponseEntity.ok(dummyCustomerDTO);
     }
 
+
+    @PostMapping("/order")
+    public void order(@RequestBody DummyOrderDTO dummyOrderDTO) {
+        AddressDTO addressDTO = addressService.save(dummyOrderDTO.getAddress());
+        dummyOrderDTO.setAddressId(addressDTO.getId());
+        if (dummyOrderDTO.getCustomerId() == 0)
+            dummyOrderDTO.setCustomerId(null);
+        OrderDTO orderDTO = orderService.save(dummyOrderDTO);
+        dummyOrderDTO.getItems().forEach((dummyOrderItemDTO) -> {
+            dummyOrderItemDTO.setOrderId(orderDTO.getId());
+            if()
+            orderItemService.save(dummyOrderItemDTO);
+        });
+    }
 
     private static boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&

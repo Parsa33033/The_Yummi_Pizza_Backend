@@ -5,6 +5,7 @@ import java.util.List;
 public class DummyOrderDTO extends OrderDTO {
 
     List<DummyOrderItemDTO> items;
+    DummyAddressDTO address;
 
     public DummyOrderDTO() {
     }
@@ -25,5 +26,13 @@ public class DummyOrderDTO extends OrderDTO {
 
     public void setItems(List<DummyOrderItemDTO> items) {
         this.items = items;
+    }
+
+    public DummyAddressDTO getAddress() {
+        return address;
+    }
+
+    public void setAddress(DummyAddressDTO address) {
+        this.address = address;
     }
 }

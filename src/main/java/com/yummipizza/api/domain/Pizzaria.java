@@ -66,10 +66,10 @@ public class Pizzaria implements Serializable {
     @JoinColumn(unique = true)
     private Address address;
 
-    @OneToMany(mappedBy = "pizzaria")
+    @OneToMany(mappedBy = "pizzaria", fetch = FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
 
-    @OneToMany(mappedBy = "pizzaria")
+    @OneToMany(mappedBy = "pizzaria", fetch = FetchType.EAGER)
     private Set<MenuItem> items = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
