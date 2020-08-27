@@ -223,7 +223,6 @@ public class CustomerController {
         OrderDTO orderDTO = orderService.save(dummyOrderDTO);
         dummyOrderDTO.getItems().forEach((dummyOrderItemDTO) -> {
             dummyOrderItemDTO.setOrderId(orderDTO.getId());
-            if()
             orderItemService.save(dummyOrderItemDTO);
         });
     }
