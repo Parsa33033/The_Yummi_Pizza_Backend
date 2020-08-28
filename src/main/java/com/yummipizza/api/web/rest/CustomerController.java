@@ -205,6 +205,25 @@ public class CustomerController {
         return ResponseEntity.ok(dummyCustomerDTO);
     }
 
+    @PutMapping("/customers")
+    public ResponseEntity<DummyCustomerDTO> updateCustomer(@RequestBody DummyCustomerDTO dummyCustomerDTO) {
+        String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Customer customer = customerRepository.findByEmail(userLogin).get();
+
+        AddressDTO addressDTO = addressService.save((AddressDTO) dummyCustomerDTO.getAddress());
+        customer.setAddress(addressDTO != null ? addressMapper.toEntity(((AddressDTO) addressDTO)) : customer.getAddress());
+        customer.setFirstName(dummyCustomerDTO.getFirstName() != null ? dummyCustomerDTO.getFirstName() : customer.getFirstName());
+        customer.setLastName(dummyCustomerDTO.getLastName() != null ? dummyCustomerDTO.getLastName() : customer.getLastName());
+        customer.setGender(dummyCustomerDTO.getGender() != null ? dummyCustomerDTO.getGender() : customer.getGender());
+        customer.setImage(dummyCustomerDTO.getImage() != null ? dummyCustomerDTO.getImage() : customer.getImage());
+        customer.setImageContentType(dummyCustomerDTO.getImageContentType() != null ? dummyCustomerDTO.getImageContentType() : customer.getImageContentType());
+        customer.setMobileNumber(dummyCustomerDTO.getMobileNumber() != null ? dummyCustomerDTO.getMobileNumber() : customer.getMobileNumber());
+        CustomerDTO customerDTO = customerService.save(customerMapper.toDto(customer));
+        DummyCustomerDTO result = new DummyCustomerDTO(customerDTO);
+        result.setAddress(new DummyAddressDTO(addressMapper.toDto(customer.getAddress())));
+        return ResponseEntity.ok(result);
+    }
+
 
     @PostMapping("/order")
     public void order(@RequestBody DummyOrderDTO dummyOrderDTO) {
