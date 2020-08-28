@@ -186,30 +186,29 @@ public class CustomerController {
     @GetMapping("/customers")
     public ResponseEntity<DummyCustomerDTO> getCustomer() {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
-        Customer customer = customerRepository.findByEmail(userLogin).get();
+        Customer customer = customerRepository.findByUsername(userLogin).get();
         DummyCustomerDTO dummyCustomerDTO = new DummyCustomerDTO(customerMapper.toDto(customer));
         dummyCustomerDTO.setAddress(new DummyAddressDTO(addressMapper.toDto(customer.getAddress() == null ? new Address() : customer.getAddress())));
-        List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
-            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((item) -> {
-                MenuItemDTO menuItemDTO = menuItemService.findOne(item.getMenuItemId()).get();
-                DummyMenuItemDTO dummyMenuItemDTO = new DummyMenuItemDTO(menuItemDTO);
-                DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(item));
-                dummyOrderItemDTO.setMenuItem(dummyMenuItemDTO);
-                return dummyOrderItemDTO;
-            }).collect(Collectors.toList());
-            DummyOrderDTO dummyOrderDTO = new DummyOrderDTO(orderMapper.toDto(order));
-            dummyOrderDTO.setItems(dummyOrderItemDTOList);
-            return dummyOrderDTO;
-        }).collect(Collectors.toList());
-        dummyCustomerDTO.setOrders(dummyOrderDTOList);
+//        List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
+//            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((item) -> {
+//                MenuItemDTO menuItemDTO = menuItemService.findOne(item.getMenuItemId()).get();
+//                DummyMenuItemDTO dummyMenuItemDTO = new DummyMenuItemDTO(menuItemDTO);
+//                DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(item));
+//                dummyOrderItemDTO.setMenuItem(dummyMenuItemDTO);
+//                return dummyOrderItemDTO;
+//            }).collect(Collectors.toList());
+//            DummyOrderDTO dummyOrderDTO = new DummyOrderDTO(orderMapper.toDto(order));
+//            dummyOrderDTO.setItems(dummyOrderItemDTOList);
+//            return dummyOrderDTO;
+//        }).collect(Collectors.toList());
+        dummyCustomerDTO.setOrders(null);
         return ResponseEntity.ok(dummyCustomerDTO);
     }
 
     @PutMapping("/customers")
     public ResponseEntity<DummyCustomerDTO> updateCustomer(@RequestBody DummyCustomerDTO dummyCustomerDTO) {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
-        Customer customer = customerRepository.findByEmail(userLogin).get();
-
+        Customer customer = customerRepository.findByUsername(userLogin).get();
         AddressDTO addressDTO = addressService.save((AddressDTO) dummyCustomerDTO.getAddress());
         customer.setAddress(addressDTO != null ? addressMapper.toEntity(((AddressDTO) addressDTO)) : customer.getAddress());
         customer.setFirstName(dummyCustomerDTO.getFirstName() != null ? dummyCustomerDTO.getFirstName() : customer.getFirstName());
@@ -236,6 +235,27 @@ public class CustomerController {
             dummyOrderItemDTO.setOrderId(orderDTO.getId());
             orderItemService.save(dummyOrderItemDTO);
         });
+    }
+
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<DummyOrderDTO>> getOrders() {
+        String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Customer customer = customerRepository.findByUsername(userLogin).get();
+        List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
+            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((orderItem) -> {
+                DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(orderItem));
+                MenuItemDTO menuItemDTO = menuItemService.findOne(orderItem.getMenuItemId()).get();
+                dummyOrderItemDTO.setMenuItem(new DummyMenuItemDTO(menuItemDTO));
+                return dummyOrderItemDTO;
+            }).collect(Collectors.toList());
+            DummyAddressDTO dummyAddressDTO = order.getAddress() != null ? new DummyAddressDTO(addressMapper.toDto(order.getAddress())) : null;
+            DummyOrderDTO dummyOrderDTO = new DummyOrderDTO(orderMapper.toDto(order));
+            dummyOrderDTO.setAddress(dummyAddressDTO);
+            dummyOrderDTO.setItems(dummyOrderItemDTOList);
+            return dummyOrderDTO;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(dummyOrderDTOList);
     }
 
     private static boolean checkPasswordLength(String password) {

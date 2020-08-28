@@ -4,7 +4,9 @@ import com.yummipizza.api.domain.User;
 import com.yummipizza.api.repository.UserRepository;
 import com.yummipizza.api.security.SecurityUtils;
 import com.yummipizza.api.service.MailService;
+import com.yummipizza.api.service.ManagerService;
 import com.yummipizza.api.service.UserService;
+import com.yummipizza.api.service.dto.ManagerDTO;
 import com.yummipizza.api.service.dto.PasswordChangeDTO;
 import com.yummipizza.api.service.dto.UserDTO;
 import com.yummipizza.api.web.rest.errors.*;
@@ -42,11 +44,14 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    private final ManagerService managerService;
+
+    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, ManagerService managerService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.managerService = managerService;
     }
 
     /**
@@ -64,6 +69,10 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(), false, true);
+        ManagerDTO managerDTO = new ManagerDTO();
+        managerDTO.setEmail(user.getEmail());
+        managerDTO.setUsername(user.getEmail());
+        managerService.save(managerDTO);
 //        mailService.sendActivationEmail(user);
     }
 
