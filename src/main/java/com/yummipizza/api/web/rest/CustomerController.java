@@ -181,15 +181,14 @@ public class CustomerController {
     /**
      * {@code GET  /customers/:id} : get the "id" customer.
      *
-     * @param id the id of the customerDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the customerDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/customers")
-    public ResponseEntity<DummyCustomerDTO> getCustomer(@PathVariable Long id) {
+    public ResponseEntity<DummyCustomerDTO> getCustomer() {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
         Customer customer = customerRepository.findByEmail(userLogin).get();
         DummyCustomerDTO dummyCustomerDTO = new DummyCustomerDTO(customerMapper.toDto(customer));
-        dummyCustomerDTO.setAddress(new DummyAddressDTO(addressMapper.toDto(customer.getAddress())));
+        dummyCustomerDTO.setAddress(new DummyAddressDTO(addressMapper.toDto(customer.getAddress() == null ? new Address() : customer.getAddress())));
         List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
             List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((item) -> {
                 MenuItemDTO menuItemDTO = menuItemService.findOne(item.getMenuItemId()).get();
