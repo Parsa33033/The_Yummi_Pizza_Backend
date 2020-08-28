@@ -35,6 +35,9 @@ public class OrderItemResourceIT {
     private static final Integer DEFAULT_NUMBER = 1;
     private static final Integer UPDATED_NUMBER = 2;
 
+    private static final Long DEFAULT_MENU_ITEM_ID = 1L;
+    private static final Long UPDATED_MENU_ITEM_ID = 2L;
+
     @Autowired
     private OrderItemRepository orderItemRepository;
 
@@ -60,7 +63,8 @@ public class OrderItemResourceIT {
      */
     public static OrderItem createEntity(EntityManager em) {
         OrderItem orderItem = new OrderItem()
-            .number(DEFAULT_NUMBER);
+            .number(DEFAULT_NUMBER)
+            .menuItemId(DEFAULT_MENU_ITEM_ID);
         return orderItem;
     }
     /**
@@ -71,7 +75,8 @@ public class OrderItemResourceIT {
      */
     public static OrderItem createUpdatedEntity(EntityManager em) {
         OrderItem orderItem = new OrderItem()
-            .number(UPDATED_NUMBER);
+            .number(UPDATED_NUMBER)
+            .menuItemId(UPDATED_MENU_ITEM_ID);
         return orderItem;
     }
 
@@ -96,6 +101,7 @@ public class OrderItemResourceIT {
         assertThat(orderItemList).hasSize(databaseSizeBeforeCreate + 1);
         OrderItem testOrderItem = orderItemList.get(orderItemList.size() - 1);
         assertThat(testOrderItem.getNumber()).isEqualTo(DEFAULT_NUMBER);
+        assertThat(testOrderItem.getMenuItemId()).isEqualTo(DEFAULT_MENU_ITEM_ID);
     }
 
     @Test
@@ -130,7 +136,8 @@ public class OrderItemResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(orderItem.getId().intValue())))
-            .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER)));
+            .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER)))
+            .andExpect(jsonPath("$.[*].menuItemId").value(hasItem(DEFAULT_MENU_ITEM_ID.intValue())));
     }
     
     @Test
@@ -144,7 +151,8 @@ public class OrderItemResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(orderItem.getId().intValue()))
-            .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER));
+            .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER))
+            .andExpect(jsonPath("$.menuItemId").value(DEFAULT_MENU_ITEM_ID.intValue()));
     }
     @Test
     @Transactional
@@ -167,7 +175,8 @@ public class OrderItemResourceIT {
         // Disconnect from session so that the updates on updatedOrderItem are not directly saved in db
         em.detach(updatedOrderItem);
         updatedOrderItem
-            .number(UPDATED_NUMBER);
+            .number(UPDATED_NUMBER)
+            .menuItemId(UPDATED_MENU_ITEM_ID);
         OrderItemDTO orderItemDTO = orderItemMapper.toDto(updatedOrderItem);
 
         restOrderItemMockMvc.perform(put("/api/order-items")
@@ -180,6 +189,7 @@ public class OrderItemResourceIT {
         assertThat(orderItemList).hasSize(databaseSizeBeforeUpdate);
         OrderItem testOrderItem = orderItemList.get(orderItemList.size() - 1);
         assertThat(testOrderItem.getNumber()).isEqualTo(UPDATED_NUMBER);
+        assertThat(testOrderItem.getMenuItemId()).isEqualTo(UPDATED_MENU_ITEM_ID);
     }
 
     @Test

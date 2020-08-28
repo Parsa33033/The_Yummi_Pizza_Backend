@@ -4,17 +4,13 @@
     {
       "fieldName": "number",
       "fieldType": "Integer"
+    },
+    {
+      "fieldName": "menuItemId",
+      "fieldType": "Long"
     }
   ],
   "relationships": [
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "menuItem",
-      "otherEntityRelationshipName": "orderItem",
-      "relationshipName": "menuItem",
-      "otherEntityField": "id",
-      "ownerSide": true
-    },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "order",

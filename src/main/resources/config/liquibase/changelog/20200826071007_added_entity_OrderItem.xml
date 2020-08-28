@@ -20,7 +20,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="menu_item_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_order_item_menu_item_id" />
+                <constraints nullable="true" />
             </column>
             <column name="order_id" type="bigint">
                 <constraints nullable="true" />
@@ -49,6 +49,7 @@
                   tableName="order_item">
             <column name="id" type="numeric"/>
             <column name="number" type="numeric"/>
+            <column name="menu_item_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

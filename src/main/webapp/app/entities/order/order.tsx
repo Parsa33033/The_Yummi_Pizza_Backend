@@ -35,6 +35,7 @@ export const Order = (props: IOrderProps) => {
                 <th>ID</th>
                 <th>Date</th>
                 <th>Total Price</th>
+                <th>Paid In</th>
                 <th>Delivered</th>
                 <th>Address</th>
                 <th>Customer</th>
@@ -52,6 +53,7 @@ export const Order = (props: IOrderProps) => {
                   </td>
                   <td>{order.date ? <TextFormat type="date" value={order.date} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
                   <td>{order.totalPrice}</td>
+                  <td>{order.paidIn}</td>
                   <td>{order.delivered ? 'true' : 'false'}</td>
                   <td>{order.addressId ? <Link to={`address/${order.addressId}`}>{order.addressId}</Link> : ''}</td>
                   <td>{order.customerId ? <Link to={`customer/${order.customerId}`}>{order.customerId}</Link> : ''}</td>

@@ -34,6 +34,10 @@ export const OrderDetail = (props: IOrderDetailProps) => {
           </dt>
           <dd>{orderEntity.totalPrice}</dd>
           <dt>
+            <span id="paidIn">Paid In</span>
+          </dt>
+          <dd>{orderEntity.paidIn}</dd>
+          <dt>
             <span id="delivered">Delivered</span>
           </dt>
           <dd>{orderEntity.delivered ? 'true' : 'false'}</dd>

@@ -7,8 +7,6 @@ import { ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICr
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IOrderItem } from 'app/shared/model/order-item.model';
-import { getEntities as getOrderItems } from 'app/entities/order-item/order-item.reducer';
 import { IPizzaria } from 'app/shared/model/pizzaria.model';
 import { getEntities as getPizzarias } from 'app/entities/pizzaria/pizzaria.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './menu-item.reducer';
@@ -19,11 +17,10 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IMenuItemUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const MenuItemUpdate = (props: IMenuItemUpdateProps) => {
-  const [orderItemId, setOrderItemId] = useState('0');
   const [pizzariaId, setPizzariaId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { menuItemEntity, orderItems, pizzarias, loading, updating } = props;
+  const { menuItemEntity, pizzarias, loading, updating } = props;
 
   const { description, ingredient, picJpg, picJpgContentType, picPng, picPngContentType } = menuItemEntity;
 
@@ -38,7 +35,6 @@ export const MenuItemUpdate = (props: IMenuItemUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
-    props.getOrderItems();
     props.getPizzarias();
   }, []);
 
@@ -233,7 +229,6 @@ export const MenuItemUpdate = (props: IMenuItemUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  orderItems: storeState.orderItem.entities,
   pizzarias: storeState.pizzaria.entities,
   menuItemEntity: storeState.menuItem.entity,
   loading: storeState.menuItem.loading,
@@ -242,7 +237,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getOrderItems,
   getPizzarias,
   getEntity,
   updateEntity,

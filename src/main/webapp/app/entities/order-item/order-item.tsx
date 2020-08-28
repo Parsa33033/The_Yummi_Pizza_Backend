@@ -34,7 +34,7 @@ export const OrderItem = (props: IOrderItemProps) => {
               <tr>
                 <th>ID</th>
                 <th>Number</th>
-                <th>Menu Item</th>
+                <th>Menu Item Id</th>
                 <th>Order</th>
                 <th />
               </tr>
@@ -48,7 +48,7 @@ export const OrderItem = (props: IOrderItemProps) => {
                     </Button>
                   </td>
                   <td>{orderItem.number}</td>
-                  <td>{orderItem.menuItemId ? <Link to={`menu-item/${orderItem.menuItemId}`}>{orderItem.menuItemId}</Link> : ''}</td>
+                  <td>{orderItem.menuItemId}</td>
                   <td>{orderItem.orderId ? <Link to={`order/${orderItem.orderId}`}>{orderItem.orderId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

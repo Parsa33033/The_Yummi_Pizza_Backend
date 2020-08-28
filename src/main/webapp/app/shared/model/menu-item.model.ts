@@ -12,7 +12,6 @@ export interface IMenuItem {
   picJpg?: any;
   picPngContentType?: string;
   picPng?: any;
-  orderItemId?: number;
   pizzariaId?: number;
 }
 

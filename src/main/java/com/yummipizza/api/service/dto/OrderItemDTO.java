@@ -11,8 +11,8 @@ public class OrderItemDTO implements Serializable {
 
     private Integer number;
 
-
     private Long menuItemId;
+
 
     private Long orderId;
     

@@ -16,7 +16,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link com.yummipizza.api.domain.MenuItem}.
@@ -81,15 +80,10 @@ public class MenuItemResource {
     /**
      * {@code GET  /menu-items} : get all the menuItems.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of menuItems in body.
      */
     @GetMapping("/menu-items")
-    public List<MenuItemDTO> getAllMenuItems(@RequestParam(required = false) String filter) {
-        if ("orderitem-is-null".equals(filter)) {
-            log.debug("REST request to get all MenuItems where orderItem is null");
-            return menuItemService.findAllWhereOrderItemIsNull();
-        }
+    public List<MenuItemDTO> getAllMenuItems() {
         log.debug("REST request to get all MenuItems");
         return menuItemService.findAll();
     }

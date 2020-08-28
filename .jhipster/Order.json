@@ -10,6 +10,11 @@
       "fieldType": "Double"
     },
     {
+      "fieldName": "paidIn",
+      "fieldType": "Currency",
+      "fieldValues": "EURO,DOLLOR"
+    },
+    {
       "fieldName": "delivered",
       "fieldType": "Boolean"
     }

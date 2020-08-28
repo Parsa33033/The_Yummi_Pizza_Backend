@@ -41,13 +41,6 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "orderItem",
-      "otherEntityRelationshipName": "menuItem",
-      "relationshipName": "orderItem",
-      "ownerSide": false
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "pizzaria",
       "otherEntityRelationshipName": "items",

@@ -29,8 +29,10 @@ export const OrderItemDetail = (props: IOrderItemDetailProps) => {
             <span id="number">Number</span>
           </dt>
           <dd>{orderItemEntity.number}</dd>
-          <dt>Menu Item</dt>
-          <dd>{orderItemEntity.menuItemId ? orderItemEntity.menuItemId : ''}</dd>
+          <dt>
+            <span id="menuItemId">Menu Item Id</span>
+          </dt>
+          <dd>{orderItemEntity.menuItemId}</dd>
           <dt>Order</dt>
           <dd>{orderItemEntity.orderId ? orderItemEntity.orderId : ''}</dd>
         </dl>

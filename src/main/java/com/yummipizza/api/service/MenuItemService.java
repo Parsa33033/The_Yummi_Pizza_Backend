@@ -14,7 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link MenuItem}.
@@ -60,21 +59,6 @@ public class MenuItemService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
-
-    /**
-     *  Get all the menuItems where OrderItem is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true) 
-    public List<MenuItemDTO> findAllWhereOrderItemIsNull() {
-        log.debug("Request to get all menuItems where OrderItem is null");
-        return StreamSupport
-            .stream(menuItemRepository.findAll().spliterator(), false)
-            .filter(menuItem -> menuItem.getOrderItem() == null)
-            .map(menuItemMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
 
     /**
      * Get one menuItem by id.

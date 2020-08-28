@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.yummipizza.api.domain.enumeration.Currency;
+
 /**
  * A Order.
  */
@@ -27,6 +29,10 @@ public class Order implements Serializable {
 
     @Column(name = "total_price")
     private Double totalPrice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "paid_in")
+    private Currency paidIn;
 
     @Column(name = "delivered")
     private Boolean delivered;
@@ -79,6 +85,19 @@ public class Order implements Serializable {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Currency getPaidIn() {
+        return paidIn;
+    }
+
+    public Order paidIn(Currency paidIn) {
+        this.paidIn = paidIn;
+        return this;
+    }
+
+    public void setPaidIn(Currency paidIn) {
+        this.paidIn = paidIn;
     }
 
     public Boolean isDelivered() {
@@ -182,6 +201,7 @@ public class Order implements Serializable {
             "id=" + getId() +
             ", date='" + getDate() + "'" +
             ", totalPrice=" + getTotalPrice() +
+            ", paidIn='" + getPaidIn() + "'" +
             ", delivered='" + isDelivered() + "'" +
             "}";
     }

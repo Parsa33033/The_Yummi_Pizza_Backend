@@ -22,9 +22,8 @@ public class OrderItem implements Serializable {
     @Column(name = "number")
     private Integer number;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private MenuItem menuItem;
+    @Column(name = "menu_item_id")
+    private Long menuItemId;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "items", allowSetters = true)
@@ -52,17 +51,17 @@ public class OrderItem implements Serializable {
         this.number = number;
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
+    public Long getMenuItemId() {
+        return menuItemId;
     }
 
-    public OrderItem menuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
+    public OrderItem menuItemId(Long menuItemId) {
+        this.menuItemId = menuItemId;
         return this;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
+    public void setMenuItemId(Long menuItemId) {
+        this.menuItemId = menuItemId;
     }
 
     public Order getOrder() {
@@ -101,6 +100,7 @@ public class OrderItem implements Serializable {
         return "OrderItem{" +
             "id=" + getId() +
             ", number=" + getNumber() +
+            ", menuItemId=" + getMenuItemId() +
             "}";
     }
 }

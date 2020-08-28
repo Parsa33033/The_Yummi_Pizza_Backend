@@ -1,6 +1,5 @@
 package com.yummipizza.api.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -56,10 +55,6 @@ public class MenuItem implements Serializable {
 
     @Column(name = "pic_png_content_type")
     private String picPngContentType;
-
-    @OneToOne(mappedBy = "menuItem")
-    @JsonIgnore
-    private OrderItem orderItem;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "items", allowSetters = true)
@@ -202,19 +197,6 @@ public class MenuItem implements Serializable {
 
     public void setPicPngContentType(String picPngContentType) {
         this.picPngContentType = picPngContentType;
-    }
-
-    public OrderItem getOrderItem() {
-        return orderItem;
-    }
-
-    public MenuItem orderItem(OrderItem orderItem) {
-        this.orderItem = orderItem;
-        return this;
-    }
-
-    public void setOrderItem(OrderItem orderItem) {
-        this.orderItem = orderItem;
     }
 
     public Pizzaria getPizzaria() {

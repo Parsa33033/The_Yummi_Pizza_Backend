@@ -2,6 +2,7 @@ package com.yummipizza.api.service.dto;
 
 import java.time.LocalDate;
 import java.io.Serializable;
+import com.yummipizza.api.domain.enumeration.Currency;
 
 /**
  * A DTO for the {@link com.yummipizza.api.domain.Order} entity.
@@ -13,6 +14,8 @@ public class OrderDTO implements Serializable {
     private LocalDate date;
 
     private Double totalPrice;
+
+    private Currency paidIn;
 
     private Boolean delivered;
 
@@ -45,6 +48,14 @@ public class OrderDTO implements Serializable {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Currency getPaidIn() {
+        return paidIn;
+    }
+
+    public void setPaidIn(Currency paidIn) {
+        this.paidIn = paidIn;
     }
 
     public Boolean isDelivered() {
@@ -103,6 +114,7 @@ public class OrderDTO implements Serializable {
             "id=" + getId() +
             ", date='" + getDate() + "'" +
             ", totalPrice=" + getTotalPrice() +
+            ", paidIn='" + getPaidIn() + "'" +
             ", delivered='" + isDelivered() + "'" +
             ", addressId=" + getAddressId() +
             ", customerId=" + getCustomerId() +

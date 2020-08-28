@@ -26,6 +26,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.yummipizza.api.domain.enumeration.Currency;
 /**
  * Integration tests for the {@link OrderResource} REST controller.
  */
@@ -39,6 +40,9 @@ public class OrderResourceIT {
 
     private static final Double DEFAULT_TOTAL_PRICE = 1D;
     private static final Double UPDATED_TOTAL_PRICE = 2D;
+
+    private static final Currency DEFAULT_PAID_IN = Currency.EURO;
+    private static final Currency UPDATED_PAID_IN = Currency.DOLLOR;
 
     private static final Boolean DEFAULT_DELIVERED = false;
     private static final Boolean UPDATED_DELIVERED = true;
@@ -70,6 +74,7 @@ public class OrderResourceIT {
         Order order = new Order()
             .date(DEFAULT_DATE)
             .totalPrice(DEFAULT_TOTAL_PRICE)
+            .paidIn(DEFAULT_PAID_IN)
             .delivered(DEFAULT_DELIVERED);
         return order;
     }
@@ -83,6 +88,7 @@ public class OrderResourceIT {
         Order order = new Order()
             .date(UPDATED_DATE)
             .totalPrice(UPDATED_TOTAL_PRICE)
+            .paidIn(UPDATED_PAID_IN)
             .delivered(UPDATED_DELIVERED);
         return order;
     }
@@ -109,6 +115,7 @@ public class OrderResourceIT {
         Order testOrder = orderList.get(orderList.size() - 1);
         assertThat(testOrder.getDate()).isEqualTo(DEFAULT_DATE);
         assertThat(testOrder.getTotalPrice()).isEqualTo(DEFAULT_TOTAL_PRICE);
+        assertThat(testOrder.getPaidIn()).isEqualTo(DEFAULT_PAID_IN);
         assertThat(testOrder.isDelivered()).isEqualTo(DEFAULT_DELIVERED);
     }
 
@@ -146,6 +153,7 @@ public class OrderResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(order.getId().intValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].paidIn").value(hasItem(DEFAULT_PAID_IN.toString())))
             .andExpect(jsonPath("$.[*].delivered").value(hasItem(DEFAULT_DELIVERED.booleanValue())));
     }
     
@@ -162,6 +170,7 @@ public class OrderResourceIT {
             .andExpect(jsonPath("$.id").value(order.getId().intValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.doubleValue()))
+            .andExpect(jsonPath("$.paidIn").value(DEFAULT_PAID_IN.toString()))
             .andExpect(jsonPath("$.delivered").value(DEFAULT_DELIVERED.booleanValue()));
     }
     @Test
@@ -187,6 +196,7 @@ public class OrderResourceIT {
         updatedOrder
             .date(UPDATED_DATE)
             .totalPrice(UPDATED_TOTAL_PRICE)
+            .paidIn(UPDATED_PAID_IN)
             .delivered(UPDATED_DELIVERED);
         OrderDTO orderDTO = orderMapper.toDto(updatedOrder);
 
@@ -201,6 +211,7 @@ public class OrderResourceIT {
         Order testOrder = orderList.get(orderList.size() - 1);
         assertThat(testOrder.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testOrder.getTotalPrice()).isEqualTo(UPDATED_TOTAL_PRICE);
+        assertThat(testOrder.getPaidIn()).isEqualTo(UPDATED_PAID_IN);
         assertThat(testOrder.isDelivered()).isEqualTo(UPDATED_DELIVERED);
     }
 

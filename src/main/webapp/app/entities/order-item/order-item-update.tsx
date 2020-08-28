@@ -7,8 +7,6 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipste
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IMenuItem } from 'app/shared/model/menu-item.model';
-import { getEntities as getMenuItems } from 'app/entities/menu-item/menu-item.reducer';
 import { IOrder } from 'app/shared/model/order.model';
 import { getEntities as getOrders } from 'app/entities/order/order.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './order-item.reducer';
@@ -19,11 +17,10 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IOrderItemUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const OrderItemUpdate = (props: IOrderItemUpdateProps) => {
-  const [menuItemId, setMenuItemId] = useState('0');
   const [orderId, setOrderId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { orderItemEntity, menuItems, orders, loading, updating } = props;
+  const { orderItemEntity, orders, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/order-item');
@@ -36,7 +33,6 @@ export const OrderItemUpdate = (props: IOrderItemUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
-    props.getMenuItems();
     props.getOrders();
   }, []);
 
@@ -87,17 +83,10 @@ export const OrderItemUpdate = (props: IOrderItemUpdateProps) => {
                 <AvField id="order-item-number" type="string" className="form-control" name="number" />
               </AvGroup>
               <AvGroup>
-                <Label for="order-item-menuItem">Menu Item</Label>
-                <AvInput id="order-item-menuItem" type="select" className="form-control" name="menuItemId">
-                  <option value="" key="0" />
-                  {menuItems
-                    ? menuItems.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
+                <Label id="menuItemIdLabel" for="order-item-menuItemId">
+                  Menu Item Id
+                </Label>
+                <AvField id="order-item-menuItemId" type="string" className="form-control" name="menuItemId" />
               </AvGroup>
               <AvGroup>
                 <Label for="order-item-order">Order</Label>
@@ -131,7 +120,6 @@ export const OrderItemUpdate = (props: IOrderItemUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  menuItems: storeState.menuItem.entities,
   orders: storeState.order.entities,
   orderItemEntity: storeState.orderItem.entity,
   loading: storeState.orderItem.loading,
@@ -140,7 +128,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getMenuItems,
   getOrders,
   getEntity,
   updateEntity,

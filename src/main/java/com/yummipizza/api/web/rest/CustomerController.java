@@ -1,9 +1,6 @@
 package com.yummipizza.api.web.rest;
 
-import com.yummipizza.api.domain.Customer;
-import com.yummipizza.api.domain.CustomerMessage;
-import com.yummipizza.api.domain.Pizzaria;
-import com.yummipizza.api.domain.User;
+import com.yummipizza.api.domain.*;
 import com.yummipizza.api.repository.AddressRepository;
 import com.yummipizza.api.repository.CustomerRepository;
 import com.yummipizza.api.repository.PizzariaRepository;
@@ -178,11 +175,6 @@ public class CustomerController {
      */
     @GetMapping("/menu-items")
     public List<MenuItemDTO> getAllMenuItems(@RequestParam(required = false) String filter) {
-        if ("orderitem-is-null".equals(filter)) {
-            log.debug("REST request to get all MenuItems where orderItem is null");
-            return menuItemService.findAllWhereOrderItemIsNull();
-        }
-        log.debug("REST request to get all MenuItems");
         return menuItemService.findAll();
     }
 
@@ -200,7 +192,8 @@ public class CustomerController {
         dummyCustomerDTO.setAddress(new DummyAddressDTO(addressMapper.toDto(customer.getAddress())));
         List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
             List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((item) -> {
-                DummyMenuItemDTO dummyMenuItemDTO = new DummyMenuItemDTO(menuItemMapper.toDto(item.getMenuItem()));
+                MenuItemDTO menuItemDTO = menuItemService.findOne(item.getMenuItemId()).get();
+                DummyMenuItemDTO dummyMenuItemDTO = new DummyMenuItemDTO(menuItemDTO);
                 DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(item));
                 dummyOrderItemDTO.setMenuItem(dummyMenuItemDTO);
                 return dummyOrderItemDTO;

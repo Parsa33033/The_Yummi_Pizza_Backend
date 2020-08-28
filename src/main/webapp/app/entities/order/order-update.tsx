@@ -96,6 +96,21 @@ export const OrderUpdate = (props: IOrderUpdateProps) => {
                 </Label>
                 <AvField id="order-totalPrice" type="string" className="form-control" name="totalPrice" />
               </AvGroup>
+              <AvGroup>
+                <Label id="paidInLabel" for="order-paidIn">
+                  Paid In
+                </Label>
+                <AvInput
+                  id="order-paidIn"
+                  type="select"
+                  className="form-control"
+                  name="paidIn"
+                  value={(!isNew && orderEntity.paidIn) || 'EURO'}
+                >
+                  <option value="EURO">EURO</option>
+                  <option value="DOLLOR">DOLLOR</option>
+                </AvInput>
+              </AvGroup>
               <AvGroup check>
                 <Label id="deliveredLabel">
                   <AvInput id="order-delivered" type="checkbox" className="form-check-input" name="delivered" />
