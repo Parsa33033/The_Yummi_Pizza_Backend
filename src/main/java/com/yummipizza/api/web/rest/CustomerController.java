@@ -121,10 +121,6 @@ public class CustomerController {
         customerService.save(customerDTO);
         mailService.sendActivationEmail(user);
 
-//        LoginVM loginVM = new LoginVM();
-//        loginVM.setUsername(user.getLogin());
-//        loginVM.setPassword(managedUserVM.getPassword());
-//        return userJWTController.authorize(loginVM);
     }
 
     /**
@@ -155,6 +151,10 @@ public class CustomerController {
         return ResponseEntity.ok(dummyPizzariaDTO);
     }
 
+    /**
+     * send a customer message - customer message save and email to the customer a notification
+     * @param customerMessageDTO
+     */
     @PostMapping("/customer-message")
     public void sendCustomerMessage(@RequestBody CustomerMessageDTO customerMessageDTO) {
         customerMessageService.save(customerMessageDTO);
@@ -189,22 +189,15 @@ public class CustomerController {
         Customer customer = customerRepository.findByUsername(userLogin).get();
         DummyCustomerDTO dummyCustomerDTO = new DummyCustomerDTO(customerMapper.toDto(customer));
         dummyCustomerDTO.setAddress(new DummyAddressDTO(addressMapper.toDto(customer.getAddress() == null ? new Address() : customer.getAddress())));
-//        List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
-//            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((item) -> {
-//                MenuItemDTO menuItemDTO = menuItemService.findOne(item.getMenuItemId()).get();
-//                DummyMenuItemDTO dummyMenuItemDTO = new DummyMenuItemDTO(menuItemDTO);
-//                DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(item));
-//                dummyOrderItemDTO.setMenuItem(dummyMenuItemDTO);
-//                return dummyOrderItemDTO;
-//            }).collect(Collectors.toList());
-//            DummyOrderDTO dummyOrderDTO = new DummyOrderDTO(orderMapper.toDto(order));
-//            dummyOrderDTO.setItems(dummyOrderItemDTOList);
-//            return dummyOrderDTO;
-//        }).collect(Collectors.toList());
         dummyCustomerDTO.setOrders(null);
         return ResponseEntity.ok(dummyCustomerDTO);
     }
 
+    /**
+     * update a customer by providing jwt
+     * @param dummyCustomerDTO
+     * @return
+     */
     @PutMapping("/customers")
     public ResponseEntity<DummyCustomerDTO> updateCustomer(@RequestBody DummyCustomerDTO dummyCustomerDTO) {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
@@ -223,7 +216,10 @@ public class CustomerController {
         return ResponseEntity.ok(result);
     }
 
-
+    /**
+     * order by customer or an anonymous user
+     * @param dummyOrderDTO
+     */
     @PostMapping("/order")
     public void order(@RequestBody DummyOrderDTO dummyOrderDTO) {
         AddressDTO addressDTO = addressService.save(dummyOrderDTO.getAddress());
@@ -237,13 +233,17 @@ public class CustomerController {
         });
     }
 
-
+    /**
+     * get customer orders by providing jwt
+     * @return
+     */
     @GetMapping("/orders")
     public ResponseEntity<List<DummyOrderDTO>> getOrders() {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
         Customer customer = customerRepository.findByUsername(userLogin).get();
         List<DummyOrderDTO> dummyOrderDTOList = customer.getOrders().stream().map((order) -> {
-            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((orderItem) -> {
+            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().filter((orderItem) ->
+                menuItemService.findOne(orderItem.getMenuItemId()).isPresent()).map((orderItem) -> {
                 DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(orderItem));
                 MenuItemDTO menuItemDTO = menuItemService.findOne(orderItem.getMenuItemId()).get();
                 dummyOrderItemDTO.setMenuItem(new DummyMenuItemDTO(menuItemDTO));

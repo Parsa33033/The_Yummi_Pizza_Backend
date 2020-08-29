@@ -39,8 +39,6 @@ public class ManagerController {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-    private final UserRepository userRepository;
-
     private final ManagerService managerService;
     private final ManagerRepository managerRepository;
     private final ManagerMapper managerMapper;
@@ -49,41 +47,32 @@ public class ManagerController {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
-    private final OrderItemRepository orderItemRepository;
+
     private final OrderItemMapper orderItemMapper;
 
     private final MenuItemService menuItemService;
-    private final MenuItemRepository menuItemRepository;
-    private final MenuItemMapper menuItemMapper;
 
-    private final AddressRepository addressRepository;
     private final AddressMapper addressMapper;
 
 
-    public ManagerController(UserRepository userRepository, ManagerService managerService, ManagerMapper managerMapper,
-                             ManagerRepository managerRepository, OrderService orderService, OrderRepository orderRepository, OrderMapper orderMapper,
-                             OrderItemRepository orderItemRepository, OrderItemMapper orderItemMapper,
-                             MenuItemService menuItemService, MenuItemRepository menuItemRepository, MenuItemMapper menuItemMapper,
-                             AddressRepository addressRepository,AddressMapper addressMapper) {
-
-        this.userRepository = userRepository;
+    public ManagerController(ManagerService managerService, ManagerMapper managerMapper, ManagerRepository managerRepository,
+                             OrderService orderService, OrderRepository orderRepository, OrderMapper orderMapper,
+                             OrderItemMapper orderItemMapper, MenuItemService menuItemService, AddressMapper addressMapper) {
         this.managerService = managerService;
         this.managerMapper = managerMapper;
         this.managerRepository = managerRepository;
         this.orderService = orderService;
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
-        this.orderItemRepository = orderItemRepository;
         this.orderItemMapper = orderItemMapper;
         this.menuItemService = menuItemService;
-        this.menuItemRepository = menuItemRepository;
-        this.menuItemMapper = menuItemMapper;
-        this.addressRepository = addressRepository;
         this.addressMapper = addressMapper;
-
-
     }
 
+    /**
+     * get managar model by providing jwt
+     * @return
+     */
     @GetMapping("/managers")
     public ResponseEntity<DummyManagerDTO> getManager() {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
@@ -91,6 +80,11 @@ public class ManagerController {
         return ResponseEntity.ok(new DummyManagerDTO(managerMapper.toDto(manager)));
     }
 
+    /**
+     * update a manager
+     * @param dummyManagerDTO
+     * @return
+     */
     @PutMapping("/managers")
     public ResponseEntity<DummyManagerDTO> updateManager(@RequestBody DummyManagerDTO dummyManagerDTO) {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
@@ -99,10 +93,16 @@ public class ManagerController {
         return ResponseEntity.ok(new DummyManagerDTO(managerService.save(dummyManagerDTO)));
     }
 
+    /**
+     * get all pizzaria orders by providing manager jwt
+     * @return
+     */
     @GetMapping("/orders")
     public ResponseEntity<List<DummyOrderDTO>> getOrders() {
         List<DummyOrderDTO> dummyOrderDTOList = orderRepository.findAll().stream().map((order) -> {
-            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().map((orderItem) -> {
+            List<DummyOrderItemDTO> dummyOrderItemDTOList = order.getItems().stream().filter((orderItem ->
+                menuItemService.findOne(orderItem.getMenuItemId()).isPresent()
+            )).map((orderItem) -> {
                 DummyOrderItemDTO dummyOrderItemDTO = new DummyOrderItemDTO(orderItemMapper.toDto(orderItem));
                 MenuItemDTO menuItemDTO = menuItemService.findOne(orderItem.getMenuItemId()).get();
                 dummyOrderItemDTO.setMenuItem(new DummyMenuItemDTO(menuItemDTO));
@@ -117,13 +117,30 @@ public class ManagerController {
         return ResponseEntity.ok(dummyOrderDTOList);
     }
 
+    /**
+     * set order delivered attribute in order model by manager
+     * @param orderDTO
+     */
     @PostMapping("/order-delivered")
     public void setOrderDelivered(@RequestBody OrderDTO orderDTO) {
         orderService.save(orderDTO);
     }
 
+    /**
+     * add a menu item by manager
+     * @param menuItemDTO
+     */
     @PostMapping("/add-menu-item")
     public void addMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
         menuItemService.save(menuItemDTO);
+    }
+
+    /**
+     * remove a menu item by manager
+     * @param menuItemId
+     */
+    @PostMapping("/remove-menu-item")
+    public void removeMenuItem(@RequestBody Long menuItemId) {
+        menuItemService.delete(menuItemId);
     }
 }
