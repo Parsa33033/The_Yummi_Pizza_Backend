@@ -11,6 +11,8 @@ The Spring Boot Backend for The Yummi Pizza Delivery Website.
 ## How to Deploy
 
 ## How to Work with
+UML Class Diagram of the project:
+
 ![UML Class_Diagram](umlclass.jpg?raw=true "UML Class Diagram")
 
 ## Pros
