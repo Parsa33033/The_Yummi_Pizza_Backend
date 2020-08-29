@@ -41,7 +41,7 @@ Admin credentials:
 2) Testable
 3) Easy to deploy
 4) High security
-5) Caching is used for latency improvement
+5) Caching is used for latency improvement.
 
 ## Cons
 1) use of Jhipster framework lowers flexibility (but enough for a delivery website)
