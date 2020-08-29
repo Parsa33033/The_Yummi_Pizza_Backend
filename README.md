@@ -10,6 +10,8 @@ The Spring Boot Backend for The Yummi Pizza Delivery Website.
 
 ## How to Deploy
 
+1) You can change the port number from ```./src/main/resources/config.application-prod```
+
 ## How to Work with
 UML Class Diagram of the project:
 
@@ -28,13 +30,18 @@ to the address you just created
 
 note: whever address and port used to deploy this app (backend) that address would load the admin panel and working with it is straight forward (for instance, User management tab is in the administrator nav)
   
-everything else would handle from the frontend but make sure to make the three steps.
+everything else would handle from the frontend (like user registration, orders, customer messages and ...) but make sure to make the three steps.
+
+Admin credentials:
+1) username: admin
+2) password: admin
 
 ## Pros
 1) used multiple design patterns such as dependency injection, DTO patterns, seperation of concerns with service classes and ... for a reusable, maintainable and testable app.
 2) Testable
 3) easy to deploy
 4) secure
+5) caching is used for latency improvement
 
 ## Cons
 1) use of Jhipster framework lowers flexibility (but enough for a delivery website)

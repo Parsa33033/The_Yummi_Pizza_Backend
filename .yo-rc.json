@@ -35,6 +35,9 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": false,
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "the-yummi-pizza-backend",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "11"
   }
 }
