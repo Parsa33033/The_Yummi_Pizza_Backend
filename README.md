@@ -13,6 +13,12 @@ The Spring Boot Backend for The Yummi Pizza Delivery Website.
 1) You can change the port number from `./src/main/resources/config.application-prod`
 2) run `mvnw -Pprod clean package -DskipTests` on the project folder
 
+heroku plugins:install heroku-cli-deploymvn
+
+heroku buildpacks:clear
+
+
+heroku deploy:jar target/the-yummi-pizza-backend-0.0.1-SNAPSHOT.jar --app the-yummi-pizza-backend-parsa
 ## How to Work with
 UML Class Diagram of the project:
 
