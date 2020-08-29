@@ -121,4 +121,9 @@ public class ManagerController {
     public void setOrderDelivered(@RequestBody OrderDTO orderDTO) {
         orderService.save(orderDTO);
     }
+
+    @PostMapping("/add-menu-item")
+    public void addMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+        menuItemService.save(menuItemDTO);
+    }
 }
