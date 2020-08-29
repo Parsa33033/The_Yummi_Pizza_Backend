@@ -10,7 +10,8 @@ The Spring Boot Backend for The Yummi Pizza Delivery Website.
 
 ## How to Deploy
 
-1) You can change the port number from ```./src/main/resources/config.application-prod```
+1) You can change the port number from `./src/main/resources/config.application-prod`
+2) run `mvnw -Pprod clean package -DskipTests` on the project folder
 
 ## How to Work with
 UML Class Diagram of the project:
