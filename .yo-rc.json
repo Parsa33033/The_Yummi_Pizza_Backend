@@ -36,7 +36,7 @@
     "otherModules": [],
     "enableTranslation": false,
     "blueprints": [],
-    "herokuAppName": "the-yummi-pizza-backend",
+    "herokuAppName": "the-yummi-pizza-backend-parsa",
     "herokuDeployType": "git",
     "herokuJavaVersion": "11"
   }
