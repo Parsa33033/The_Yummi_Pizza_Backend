@@ -38,6 +38,6 @@
     "blueprints": [],
     "herokuAppName": "the-yummi-pizza-backend-parsa",
     "herokuDeployType": "git",
-    "herokuJavaVersion": "11"
+    "herokuJavaVersion": "1.8"
   }
 }
