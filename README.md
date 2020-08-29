@@ -37,11 +37,11 @@ Admin credentials:
 2) password: admin
 
 ## Pros
-1) used multiple design patterns such as dependency injection, DTO patterns, seperation of concerns with service classes and ... for a reusable, maintainable and testable app.
+1) Used multiple design patterns such as dependency injection, DTO patterns, seperation of concerns with service classes and ... for a reusable, maintainable and testable app.
 2) Testable
-3) easy to deploy
-4) secure
-5) caching is used for latency improvement
+3) Easy to deploy
+4) High security
+5) Caching is used for latency improvement
 
 ## Cons
 1) use of Jhipster framework lowers flexibility (but enough for a delivery website)
