@@ -1,7 +1,10 @@
 # The_Yummi_Pizza_Backend
 The Spring Boot Backend for The Yummi Pizza Delivery Website.
 
-frontend link for the app: https://github.com/Parsa33033/The_Yummi_Pizza_Frontend
+Frontend link for the app: https://github.com/Parsa33033/The_Yummi_Pizza_Frontend
+
+Admin panl link: http://104.248.254.44/
+Website link: http://161.35.28.65/
 
 ## Tech Used
 1) Spring boot framework using Java programming language
@@ -21,11 +24,11 @@ frontend link for the app: https://github.com/Parsa33033/The_Yummi_Pizza_Fronten
     3. mailing config can be changed from both `./src/main/resources/config.application-prod` for production and `./src/main/resources/config.application-dev` for development
     4. in order to make account activation and password recovery email work properly you need to set the `jhipster.male.base-url` from `./src/main/resources/config.application-prod` to the frontend app url
         1. frontend link is https://github.com/Parsa33033/The_Yummi_Pizza_Frontend 
-2) run `mvnw -Pprod clean package -DskipTests` on the project folder
-3) copy `docker-compose.yml` and `Dockerfile` in the target folder
-4) send the target folder on the server
-5) install Docker and Docker compose on your server
-6) run `docker-compose up` command in the build folder
+2) Run `mvnw -Pprod clean package -DskipTests` on the project folder
+3) Copy `docker-compose.yml` and `Dockerfile` in the target folder
+4) Send the target folder on the server
+5) Install Docker and Docker compose on your server
+6) Run `docker-compose up` command in the build folder
 
 
 note: make sure to change `spring.jpa.hibernate-ddl-auto` to update when deploying for production
@@ -59,20 +62,20 @@ Admin credentials:
 You can do couple of things in this app:
 
 ###customer:
-1) a customer can register and after registration a activation email would be sent to her/his email where she/he can click on the link given to activate the account
-2) a logged in customer or not a registered customer can add to cart and proceed to checkout(you can switch between Dollor and Euro with a button in both main page and cart page)
-3) make an order which gives adds to order list in customer menu on the top right of the page (if the customer is logged in) and then
+1) A customer can register and after registration a activation email would be sent to her/his email where she/he can click on the link given to activate the account
+2) A logged in customer or not a registered customer can add to cart and proceed to checkout(you can switch between Dollor and Euro with a button in both main page and cart page)
+3) Make an order which gives adds to order list in customer menu on the top right of the page (if the customer is logged in) and then
 an email of seccessful order would be sent to the customer
-4) customer can check her/his orders in the order menu on the top right of the page (if customer is logged in)
-5) customer can logout
-6) a customer can edit her/his profile so that next time she/he does not need to fill in the info needed in the checkout page. 
+4) Customer can check her/his orders in the order menu on the top right of the page (if customer is logged in)
+5) Customer can logout
+6) A customer can edit her/his profile so that next time she/he does not need to fill in the info needed in the checkout page. 
 
 ###manager:
-1) if you want to become a manager you have to register in the admin panel but you would not get an activation email because the admin has to activate you herself
-2) if you can loggin as the manager your menu panel consists of pages of orders and menus
-    1. in the order menu you can see all the orders and you can check the checkbox for each order to confirm that the food has been delivered. by doing so, customer can see that her/his order has been delivered in her/his order page
-    2. in the menu section of the app menu you can add or deduct menu items which in turn shows in the main page of the website (so menus get added dynamically by manager or admin from admin panel)
-3) a manger can edit her/his profile
+1) If you want to become a manager you have to register in the admin panel but you would not get an activation email because the admin has to activate you herself
+2) If you can loggin as the manager your menu panel consists of pages of orders and menus
+    1. In the order menu you can see all the orders and you can check the checkbox for each order to confirm that the food has been delivered. by doing so, customer can see that her/his order has been delivered in her/his order page
+    2. In the menu section of the app menu you can add or deduct menu items which in turn shows in the main page of the website (so menus get added dynamically by manager or admin from admin panel)
+3) A manger can edit her/his profile
 
 
 ## Pros
@@ -83,4 +86,4 @@ an email of seccessful order would be sent to the customer
 5) Caching is used for latency improvement.
 
 ## Cons
-1) use of Jhipster framework lowers flexibility (but enough for a delivery website)
+1) Use of Jhipster framework lowers flexibility (but enough for a delivery website)
