@@ -35,9 +35,6 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": false,
-    "blueprints": [],
-    "herokuAppName": "the-yummi-pizza-backend-parsa",
-    "herokuDeployType": "git",
-    "herokuJavaVersion": "1.8"
+    "blueprints": []
   }
 }

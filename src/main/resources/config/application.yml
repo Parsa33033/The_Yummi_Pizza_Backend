@@ -111,6 +111,10 @@ spring:
   output:
     ansi:
       console-available: true
+  servlet:
+    multipart:
+      max-request-size: 50MB
+      max-file-size: 50MB
 
 server:
   servlet:
@@ -133,13 +137,13 @@ jhipster:
   clientApp:
     name: 'theYummiPizzaBackendApp'
   # By default CORS is disabled. Uncomment to enable.
-  # cors:
-  #     allowed-origins: "*"
-  #     allowed-methods: "*"
-  #     allowed-headers: "*"
-  #     exposed-headers: "Authorization,Link,X-Total-Count"
-  #     allow-credentials: true
-  #     max-age: 1800
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800
   mail:
     from: TheYummiPizzaBackend@localhost
   swagger:

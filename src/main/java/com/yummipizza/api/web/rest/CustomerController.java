@@ -115,12 +115,13 @@ public class CustomerController {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(), true, false);
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setUsername(user.getLogin());
-        customerDTO.setEmail(user.getEmail());
-        customerService.save(customerDTO);
+        if (!customerRepository.findByUsername(user.getLogin()).isPresent()) {
+            CustomerDTO customerDTO = new CustomerDTO();
+            customerDTO.setUsername(user.getLogin());
+            customerDTO.setEmail(user.getEmail());
+            customerService.save(customerDTO);
+        }
         mailService.sendActivationEmail(user);
-
     }
 
     /**

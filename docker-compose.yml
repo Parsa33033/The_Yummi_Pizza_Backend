@@ -1,0 +1,36 @@
+version: "3.6"
+services:
+  mysql:
+    image: "mysql:5"
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: yummipizza
+      MYSQL_ROOT_PASSWORD: sderftr43e4567uikiuy6t5red
+    restart: always
+    expose:
+      - 3306
+    volumes:
+      - type: volume
+        source: mysql-data
+        target: /var/lib/mysql/
+    networks:
+      - yummipizza
+  yummipizzaadmin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    container_name: yummipizzaadmin
+    restart: always
+    depends_on:
+      - mysql
+    networks:
+      - yummipizza
+volumes:
+  mysql-data:
+networks:
+  yummipizza:
+    driver: bridge
